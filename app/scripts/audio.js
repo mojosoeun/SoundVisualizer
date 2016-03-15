@@ -8,12 +8,17 @@
  * Controller of the soundVisualizerApp
  */
 //select the third input
-var motu = new Tone.ExternalInput(3);
+var motu = new Tone.ExternalInput();
 
+this.audioBuffer = Tone.context.createBuffer(1, Tone.context.sampleRate * 100, Tone.context.sampleRate);
+this.bufferArray = this.audioBuffer.getChannelData(0);
 //opening the input asks the user to activate their mic
-motu.open(function(){
-	//opening is activates the microphone
-	//starting lets audio through
-	motu.start(10);
-  console.log("!!!!!")
-});
+
+start = function(){
+	//0 out the buffer
+	for (var i = 0; i < this.bufferArray.length; i++){
+		this.bufferArray[i] = 0;
+	}
+	console.log(this.bufferArray);
+	
+};
