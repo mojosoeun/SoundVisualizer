@@ -8,55 +8,67 @@
  * Controller of the soundVisualizerApp
  */
 //select the third input
-var motu = new Tone.ExternalInput(3);
-var jsNode = Tone.context.createScriptProcessor(4096, 1, 1);
-jsNode.noGC();
-motu.connect(jsNode);
-var audioBuffer = Tone.context.createBuffer(1, Tone.context.sampleRate * 100, Tone.context.sampleRate);
-var bufferArray = this.audioBuffer.getChannelData(0);
-var bufferPosition = 0
-//opening the input asks the user to activate their mic
+var ExternalInput = function(bufferDuration){
 
-var open = function(){
+	this.motu = new Tone.ExternalInput(3);
+	this.jsNode = Tone.context.createScriptProcessor(4096, 1, 1);
+	this.jsNode.noGC();
+	this.motu.connect(this.jsNode);
+	this.audioBuffer = Tone.context.createBuffer(1, Tone.context.sampleRate * 100, Tone.context.sampleRate);
+	this.bufferArray = this.audioBuffer.getChannelData(0);
+	this.bufferPosition = 0;
+	this.isRecording = false;
+	this._bufferDuration = bufferDuration;
+	this.meter = 0;
+	this.onended = Tone.noOp;
+}
+
+ExternalInput.prototype.open = function(callback, err){
 	jsNode.onaudioprocess = _onprocess.bind();
 	motu.open(callback, err);
 }
 
-var start = function() {
+ExternalInput.prototype.start = function() {
 	//0 out the buffer
-	for (var i = 0; i < bufferArray.length; i++){
-		bufferArray[i] = 0;
+	for (var i = 0; i < this.bufferArray.length; i++){
+		this.bufferArray[i] = 0;
 	}
-	bufferPosition = 0;
-	motu.start();
+	this.bufferPosition = 0;
+	this.head = 0;
+	this.motu.start();
 };
 
-var _onprocess = function(event){
+ExternalInput.prototype._onprocess = function(event){
 	//meter the input
-	var bufferSize = jsNode.bufferSize;
+	var bufferSize = this.jsNode.bufferSize;
 	// var smoothing = 0.3;
 	var input = event.inputBuffer.getChannelData(0);
 	var x;
-	var recordBufferLen = bufferArray.length;
+	var recordBufferLen = this.bufferArray.length;
 	for (var i = 0; i < bufferSize; i++){
 		x = input[i];
-			// sum += x * x;
+    	// sum += x * x;
 		//if it's recording, fill the record buffer
-		// if (this.isRecording){
-		// 	if (this.bufferPosition < recordBufferLen){
-		// 		this.bufferArray[this.bufferPosition] = x;
-		// 		this.bufferPosition++;
-		// 	} else {
-		// 		this.stop();
-		// 		//get out of the audio thread
-		// 		setTimeout(this.onended.bind(this), 5);
-		// 	}
-		// }
+		if (this.isRecording){
+			if (this.bufferPosition < recordBufferLen){
+				this.bufferArray[this.bufferPosition] = x;
+				this.bufferPosition++;
+			} else {
+				this.stop();
+				//get out of the audio thread
+				setTimeout(this.onended.bind(this), 5);
+			}
+		}
+		}
+	};
+
+ExternalInput.prototype.setBuffer = function(buffer){
+	var targetArray = this.audioBuffer.getChannelData(0);
+	var copyArray = buffer.getChannelData(0);
+	for (var i = 0; i < copyArray.length; i++){
+		targetArray[i] = copyArray[i];
 	}
-	// var rms = Math.sqrt(sum / bufferSize);
-	// this.meter = Math.max(rms, this.meter * smoothing);
 };
 
-open(function(){
-
-})
+return motu;
+}
