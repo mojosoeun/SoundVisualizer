@@ -94,9 +94,22 @@ var SoundCloudAudioSource = function(player) {
         player.play();
     }
 };
+/*
+ex)
+<div id="playerControls">
+    <form id="form">
+        <input id="input" placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)">
+        <button type="submit" id="submit"><i class="icon-play"></i></button><br>
+    </form>
+    <audio id="player" preload autobuffer></audio>
+</div>
 
+*/
+var player =  document.getElementById('player');
 var loader = new SoundcloudLoader(player,uiUpdater);
 var audioSource = new SoundCloudAudioSource(player);
+var form = document.getElementById('form');
+
 var loadAndUpdate = function(trackUrl) {
         loader.loadStream(trackUrl,
             function() {
@@ -109,3 +122,9 @@ var loadAndUpdate = function(trackUrl) {
                 uiUpdater.displayMessage("Error", loader.errorMessage);
             });
     };
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var trackUrl = document.getElementById('input').value;
+        loadAndUpdate(trackUrl);
+    });
