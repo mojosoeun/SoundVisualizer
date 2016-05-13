@@ -1,130 +1,106 @@
-var SoundcloudLoader = function(player,uiUpdater) {
-    var self = this;
-    var client_id = "SOUNDCLOUD_CLIENT_ID"; // to get an ID go to http://developers.soundcloud.com/
-    this.sound = {};
-    this.streamUrl = "";
-    this.errorMessage = "";
-    this.player = player;
-    this.uiUpdater = uiUpdater;
+(function() {
+  'use strict';
 
-    this.loadStream = function(track_url, successCallback, errorCallback) {
-        SC.initialize({
-            client_id: client_id
-        });
-        SC.get('/resolve', { url: track_url }, function(sound) {
-            if (sound.errors) {
-                self.errorMessage = "";
-                for (var i = 0; i < sound.errors.length; i++) {
-                    self.errorMessage += sound.errors[i].error_message + '<br>';
-                }
-                self.errorMessage += 'Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track';
-                errorCallback();
-            } else {
+  function SoundCloudService($http) {
+    var service = {};
+    var audioCtx = null,
+        _stream = null,
+        intv = null,
+        streamUrl = "";
+    service.scResponse = null;
 
-                if(sound.kind=="playlist"){
-                    self.sound = sound;
-                    self.streamPlaylistIndex = 0;
-                    self.streamUrl = function(){
-                        return sound.tracks[self.streamPlaylistIndex].stream_url + '?client_id=' + client_id;
-                    };
-                    successCallback();
-                }else{
-                    self.sound = sound;
-                    self.streamUrl = function(){ return sound.stream_url + '?client_id=' + client_id; };
-                    successCallback();
-                }
-            }
-        });
-    };
-
-    this.directStream = function(direction){
-        if(direction=='toggle'){
-            if (this.player.paused) {
-                this.player.play();
-            } else {
-                this.player.pause();
-            }
-        }
-        else if(this.sound.kind=="playlist"){
-            if(direction=='coasting') {
-                this.streamPlaylistIndex++;
-            }else if(direction=='forward') {
-                if(this.streamPlaylistIndex>=this.sound.track_count-1) this.streamPlaylistIndex = 0;
-                else this.streamPlaylistIndex++;
-            }else{
-                if(this.streamPlaylistIndex<=0) this.streamPlaylistIndex = this.sound.track_count-1;
-                else this.streamPlaylistIndex--;
-            }
-            if(this.streamPlaylistIndex>=0 && this.streamPlaylistIndex<=this.sound.track_count-1) {
-               this.player.setAttribute('src',this.streamUrl());
-               this.uiUpdater.update(this);
-               this.player.play();
-            }
-        }
+    service.init = function() {
+      SC.initialize({
+        client_id: SOUNDCLOUD_APT_KEY
+      });
     }
-};
-var SoundCloudAudioSource = function(player) {
-    var self = this;
-    var analyser;
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext);
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    player.crossOrigin = "anonymous";
-    var source = audioCtx.createMediaElementSource(player);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    var sampleAudioStream = function() {
-        analyser.getByteFrequencyData(self.streamData);
-        var total = 0;
-        for (var i = 0; i < 80; i++) { // get the volume from the first 80 bins, else it gets too loud with treble
-            total += self.streamData[i];
-        }
-        self.volume = total;
+
+    service.searchSoundCloud = function(query) {
+      return $http.get('https://api.soundcloud.com/tracks.json?client_id=' + SOUNDCLOUD_APT_KEY + '&q=' + query + '&limit=1').
+      then(function(response) {
+        service.scResponse = response.data;
+        console.debug("SoundCloud link: ", service.scResponse[0].permalink_url);
+        streamUrl = service.scResponse[0].stream_url + '?client_id=' + SOUNDCLOUD_APT_KEY;
+        return service.scResponse;
+      });
     };
-    setInterval(sampleAudioStream, 20);
-    // public properties and methods
-    this.volume = 0;
-    this.streamData = new Uint8Array(128);
-    this.playStream = function(streamUrl) {
-        // get the input stream from the audio element
-        player.addEventListener('ended', function(){
-            self.directStream('coasting');
-        });
-        player.setAttribute('src', streamUrl);
-        player.play();
+
+    service.startVisualizer = function(){
+
+      var audio = document.querySelector('audio');
+      audio.setAttribute('src', streamUrl);
+      audio.play();
+
+      var errorCallback = function(e) {
+        console.log('Reeeejected!', e);
+      };
+
+      audioCtx = new (window.AudioContext || window.webkitAudioContext);
+      var source = audioCtx.createMediaElementSource(audio);
+      // var filter = audioCtx.createBiquadFilter();
+
+      var analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      audio.crossOrigin = "anonymous";
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+
+      var bufferLength = analyser.frequencyBinCount;
+      console.log(bufferLength);
+
+      var dataArray = new Uint8Array(bufferLength);
+
+      function draw() {
+        analyser.getByteTimeDomainData(dataArray);
+        drawCanvas(dataArray,bufferLength);
+      };
+
+      intv = setInterval(function(){ draw() }, 1000 / 30);
+    };
+
+    service.stopVisualizer = function(){
+      clearInterval(intv);
+      audioCtx.close();
+      _stream.getAudioTracks()[0].stop();
     }
-};
-/*
-ex)
-<div id="playerControls">
-    <form id="form">
-        <input id="input" placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)">
-        <button type="submit" id="submit"><i class="icon-play"></i></button><br>
-    </form>
-    <audio id="player" preload autobuffer></audio>
-</div>
+    return service;
+  }
 
-*/
-var player =  document.getElementById('player');
-var loader = new SoundcloudLoader(player,uiUpdater);
-var audioSource = new SoundCloudAudioSource(player);
-var form = document.getElementById('form');
+  function drawCanvas(dataArray,bufferLength){
+    var canvas = document.getElementById('visualizer');
+    var canvasCtx = canvas.getContext("2d");
 
-var loadAndUpdate = function(trackUrl) {
-        loader.loadStream(trackUrl,
-            function() {
-                uiUpdater.clearInfoPanel();
-                audioSource.playStream(loader.streamUrl());
-                uiUpdater.update(loader);
-                setTimeout(uiUpdater.toggleControlPanel, 3000); // auto-hide the control panel
-            },
-            function() {
-                uiUpdater.displayMessage("Error", loader.errorMessage);
-            });
-    };
+    var WIDTH = 150;
+    var HEIGHT = 150;
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var trackUrl = document.getElementById('input').value;
-        loadAndUpdate(trackUrl);
-    });
+    canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+    canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+    canvasCtx.strokeStyle = 'rgb(255,255,255)';
+
+    canvasCtx.lineWidth = 2;
+    canvasCtx.beginPath();
+
+    var sliceWidth = WIDTH * 1.0 / bufferLength;
+    var x = 0;
+
+    for(var i = 0; i < bufferLength; i++) {
+      var data = dataArray[i];
+      var v = data / 128.0;
+      var y = v * HEIGHT/2;
+
+      if(i === 0) {
+        canvasCtx.moveTo(x, y);
+      } else {
+        canvasCtx.lineTo(x, y);
+      }
+
+      x += sliceWidth;
+    }
+    canvasCtx.lineTo(canvas.width, canvas.height/2);
+    canvasCtx.stroke();
+  }
+
+  angular.module('SmartMirror')
+  .factory('SoundCloudService', SoundCloudService);
+
+}());
