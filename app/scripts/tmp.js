@@ -6,7 +6,8 @@
     var audioCtx = null,
         _stream = null,
         intv = null,
-        streamUrl = "";
+        streamUrl = "",
+        audio = document.querySelector('audio');
     service.scResponse = null;
 
     service.init = function() {
@@ -27,7 +28,6 @@
 
     service.startVisualizer = function(){
 
-      var audio = document.querySelector('audio');
       audio.setAttribute('src', streamUrl);
       audio.play();
 
@@ -60,8 +60,9 @@
 
     service.stopVisualizer = function(){
       clearInterval(intv);
+      audio.pause();
       audioCtx.close();
-      _stream.getAudioTracks()[0].stop();
+      // _stream.getAudioTracks()[0].stop();
     }
     return service;
   }
