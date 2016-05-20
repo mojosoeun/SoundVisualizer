@@ -34,12 +34,13 @@
     service.pause = function(){
       audio.pause();
       clearInterval(intv);
-      audiosource.audioCtx.close();
+      // audiosource.audioCtx.close();
     };
 
     service.replay = function(){
       audio.currentTime = 0;
       audio.pause();
+      audio.play();
       intv = setInterval(function(){ audiosource.draw() }, 1000 / 30);
     };
 
