@@ -103,6 +103,19 @@
     canvasCtx.stroke();
   }
 
+  var Visualizer = function() {
+
+    function Figure() {
+
+    }
+
+    Figure.prototype.rotate = function(){
+
+
+    }
+
+  }
+
   angular.module('SmartMirror')
   .factory('SoundCloudService', SoundCloudService);
 
