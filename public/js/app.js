@@ -55,42 +55,40 @@ function drawCanvas(dataArray, bufferLength){
   var data = dataArray[0];
   var v = data / 128.0;
   var y = v * two.height / 2;
-  var circle = two.makeCircle(v, y, y);
-  var rect = two.makeRectangle(100, v, 50, 20);
-  circle.fill = '#FF8000';
-  rect.fill = 'rgba(0, 200, 255, 0.75)';
 
-  var group = two.makeGroup(circle, rect);
-  group.translation.set(two.width / 2, two.height / 2);
-  group.scale = 0;
-  group.noStroke();
+  two.clear();
+
+  var position = new Two.Vector(two.width/2, two.height/2);
+
+  var circle = two.makeCircle(position.x, position.y, y);
+  circle.fill = '#52C5DC';
+  circle.noStroke();
 
   // Bind a function to scale and rotate the group
   // to the animation loop.
   two.bind('update', function(frameCount) {
     // This code is called everytime two.update() is called.
     // Effectively 60 times per second.
-    if (group.scale > 0.9999) {
-      group.scale = group.rotation = 0;
+    if (circle.scale > 0.9999) {
+      circle.scale = circle.rotation = 0;
     }
-    var t = (1 - group.scale) * 0.125;
-    group.scale += t;
-    group.rotation += t * 4 * Math.PI;
+    var t = (1 - circle.scale) * 0.125;
+    circle.scale += t;
+    circle.rotation += t * 4 * Math.PI;
   }).play();  // Finally, start the animation loop
-
 }
 
 var player = document.getElementById('player');
 var stream = new SoundcloudStream(player);
 var audiosource = new SoundCloudAudioSource(player);
 var elem = document.getElementById('visualizer');
-var two = new Two({ width: 800, height: 800 }).appendTo(elem);
+var two = new Two({fullscreen: true}).appendTo(elem);
 
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
     audiosource.playStream(stream.streamUrl);
-    setInterval(function(){ audiosource.draw() }, 1000);
+    setInterval(function(){ audiosource.draw() }, 1000 / 200);
   },
   function(error) {
     console.log(error);
