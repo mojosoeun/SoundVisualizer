@@ -1,3 +1,5 @@
 config.js
 npm-debug.log
 /node_modules
+firebase-debug.log
+public/bower_components/

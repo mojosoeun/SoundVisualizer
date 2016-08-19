@@ -1,0 +1,22 @@
+{
+  "name": "SoundVisualizer",
+  "homepage": "https://github.com/mojosoeun/SoundVisualizer",
+  "authors": [
+    "soeun <mojosoeun@gmail.com>"
+  ],
+  "description": "sound-visualizer",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper": "^0.10.2"
+  }
+}
