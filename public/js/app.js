@@ -64,11 +64,15 @@ function drawCanvas(dataArray, bufferLength){
   circle.fill = '#52C5DC';
   var circle2 = two.makeCircle(position.x - 1000, position.y - 1000, y);
   circle2.fill = '#FF8000';
+  var circle3 = two.makeCircle(position.x - 1000, position.y + 1000, y);
+  circle3.fill = '#FF8000';
+  var circle4 = two.makeCircle(position.x + 1000, position.y - 1000, y);
+  circle4.fill = '#FF8000';
 
-  var circle3 = two.makeCircle(position.x + 1000, position.y + 1000 , y);
-  circle3.fill = '#E77471';
+  var circle5 = two.makeCircle(position.x + 1000, position.y + 1000 , y);
+  circle5.fill = '#E77471';
 
-  var group = two.makeGroup(circle, circle2, circle3);
+  var group = two.makeGroup(circle, circle2, circle3, circle4, circle5);
   group.translation.set(two.width / 2, two.height / 2);
   group.scale = 0;
   group.noStroke();
@@ -105,7 +109,7 @@ var play = function(trackurl) {
   });
 };
 
-var track_url = 'https://soundcloud.com/bigbabydram/broccoli';
+var track_url = 'https://soundcloud.com/cosmosmidnight/cosmos-midnight-walk-with-me-feat-kucka';
 play(track_url);
 
 }());
