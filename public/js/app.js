@@ -58,8 +58,6 @@ function drawCanvas(dataArray, bufferLength){
 
   two.clear();
 
-  var position = new Two.Vector(two.width/2, two.height/2);
-
   var circle = two.makeCircle(position.x, position.y, y);
   circle.fill = '#52C5DC';
   var circle2 = two.makeCircle(position.x - 1000, position.y - 1000, y);
@@ -96,6 +94,7 @@ var stream = new SoundcloudStream(player);
 var audiosource = new SoundCloudAudioSource(player);
 var elem = document.getElementById('visualizer');
 var two = new Two({fullscreen: true}).appendTo(elem);
+var position = new Two.Vector(two.width/2, two.height/2);
 
 
 var play = function(trackurl) {
