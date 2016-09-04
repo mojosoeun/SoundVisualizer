@@ -45,9 +45,31 @@ var SoundCloudAudioSource = function(audio){
 
   this.draw = function() {
     analyser.getByteTimeDomainData(this.dataArray);
+    elem.clearRect(0, 0, two.width, two.height);
     drawCanvas(this.dataArray, this.bufferLength);
+    // draw(this.dataArray, this.bufferLength);
   };
 
+}
+
+function draw(dataArray, bufferLength){
+  drawVisual = requestAnimationFrame(draw);
+
+  analyser.getByteFrequencyData(dataArray);
+
+  elem.fillStyle = 'rgb(0, 0, 0)';
+  elem.fillRect(0, 0, two.width, two.height);
+  var barWidth = (two.width / bufferLength) * 2.5;
+  var barHeight;
+  var x = 0;
+  for(var i = 0; i < bufferLength; i++) {
+    barHeight = dataArray[i]/2;
+
+    elem.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+    elem.fillRect(x,two.height-barHeight/2,barWidth,barHeight);
+
+    x += barWidth + 1;
+  }
 }
 
 function drawCanvas(dataArray, bufferLength){
@@ -59,16 +81,38 @@ function drawCanvas(dataArray, bufferLength){
   two.clear();
 
   var circle = two.makeCircle(position.x, position.y, y);
-  circle.fill = '#52C5DC';
-  var circle2 = two.makeCircle(position.x - 1000, position.y - 1000, y);
-  circle2.fill = '#FF8000';
-  var circle3 = two.makeCircle(position.x - 1000, position.y + 1000, y);
-  circle3.fill = '#FF8000';
-  var circle4 = two.makeCircle(position.x + 1000, position.y - 1000, y);
-  circle4.fill = '#FF8000';
+  circle.fill = '#BF0A19';
 
-  var circle5 = two.makeCircle(position.x + 1000, position.y + 1000 , y);
-  circle5.fill = '#E77471';
+  var circle2 = two.makeCircle(position.x, position.y - 1000, y);
+  circle2.fill = '#F20C36';
+
+  var circle3 = two.makeCircle(position.x, position.y - 2000, y);
+  circle3.fill = '#0E2773';
+
+  var circle4 = two.makeCircle(position.x, position.y + 1000, y);
+  circle4.fill = '#7BBF78';
+
+  var circle5 = two.makeCircle(position.x, position.y + 2000, y);
+  circle5.fill = '#F2DF80';
+  // var circle2 = two.makeCircle(position.x - 1000, position.y - 1000, y);
+  // circle2.fill = '#FF8000';
+  // var circle3 = two.makeCircle(position.x - 1000, position.y + 1000, y);
+  // circle3.fill = '#FF8000';
+  // var circle4 = two.makeCircle(position.x + 1000, position.y - 1000, y);
+  // circle4.fill = '#FF8000';
+  //
+  // var circle5 = two.makeCircle(position.x + 1000, position.y + 1000 , y);
+  // circle5.fill = '#E77471';
+  //
+  // var circle6 = two.makeCircle(position.x - 2000, position.y - 2000, y);
+  // circle6.fill = '#FF8000';
+  // var circle7 = two.makeCircle(position.x - 2000, position.y + 2000, y);
+  // circle7.fill = '#FF8000';
+  // var circle8 = two.makeCircle(position.x + 2000, position.y - 2000, y);
+  // circle8.fill = '#FF8000';
+  //
+  // var circle9 = two.makeCircle(position.x + 2000, position.y + 2000 , y);
+  // circle9.fill = '#E77471';
 
   var group = two.makeGroup(circle, circle2, circle3, circle4, circle5);
   group.translation.set(two.width / 2, two.height / 2);
