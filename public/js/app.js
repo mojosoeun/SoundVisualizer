@@ -44,29 +44,36 @@ var SoundCloudAudioSource = function(audio){
   }
 
   this.draw = function() {
-    self.analyser.getByteTimeDomainData(this.dataArray);
+    // self.analyser.getByteTimeDomainData(this.dataArray);
+      // self.analyser.getByteFrequencyData(dataArray);
+
     // drawCanvas(this.dataArray, this.bufferLength);
+
+
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-    drawBar(this.dataArray, this.bufferLength);
+    // drawBar(this.dataArray, this.bufferLength);
+    drawBar();
   };
 
 }
 
-function drawBar(dataArray, bufferLength) {
+function drawBar() {
   // drawVisual = requestAnimationFrame(drawBar);
+  console.log("!!!");
+  var drawVisual = requestAnimationFrame(drawBar);
 
-  audiosource.analyser.getByteFrequencyData(dataArray);
+  audiosource.analyser.getByteFrequencyData(audiosource.dataArray);
 
   canvasCtx.fillStyle = 'rgb(0, 0, 0)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-  var barWidth = (WIDTH / bufferLength) * 2.5;
+  var barWidth = (WIDTH / audiosource.bufferLength) * 2.5;
   var barHeight;
   var x = 0;
 
-  for(var i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i];
+  for(var i = 0; i < audiosource.bufferLength; i++) {
+    barHeight = audiosource.dataArray[i];
 
     canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
     canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
@@ -140,19 +147,20 @@ var player = document.getElementById('player');
 var stream = new SoundcloudStream(player);
 var audiosource = new SoundCloudAudioSource(player);
 var elem = document.getElementById('visualizer');
-var canvas = document.getElementById('haha');
+var canvas = document.getElementById('viewport');
 var canvasCtx = canvas.getContext('2d');
 var two = new Two({fullscreen: true}).appendTo(elem);
 var position = new Two.Vector(two.width/2, two.height/2);
-var WIDTH = two.width;
-var HEIGHT = two.height;
+var WIDTH = 500;
+var HEIGHT = 500;
 
 
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
     audiosource.playStream(stream.streamUrl);
-    setInterval(function(){ audiosource.draw() }, 1000 / 400);
+    audiosource.draw();
+    // setInterval(function(){ audiosource.draw() }, 1000 / 400);
   },
   function(error) {
     console.log(error);
