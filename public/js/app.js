@@ -65,7 +65,7 @@ function drawBar() {
 
   audiosource.analyser.getByteFrequencyData(audiosource.dataArray);
 
-  canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+  canvasCtx.fillStyle = 'rgb(255, 255, 255)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
   var barWidth = (WIDTH / audiosource.bufferLength) * 2.5;
@@ -75,7 +75,7 @@ function drawBar() {
   for(var i = 0; i < audiosource.bufferLength; i++) {
     barHeight = audiosource.dataArray[i];
 
-    canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+    canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ', '+ (barHeight+50)+',' + (barHeight+100) + ')';
     canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
 
     x += barWidth + 1;
