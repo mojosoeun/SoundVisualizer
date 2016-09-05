@@ -28,13 +28,13 @@ var SoundCloudAudioSource = function(audio){
   var audioCtx = new (window.AudioContext || window.webkitAudioContext);
   var source = audioCtx.createMediaElementSource(audio);
 
-  var analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 256;
+  self.analyser = audioCtx.createAnalyser();
+  self.analyser.fftSize = 256;
   audio.crossOrigin = "anonymous";
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
+  source.connect(self.analyser);
+  self.analyser.connect(audioCtx.destination);
 
-  this.bufferLength = analyser.frequencyBinCount;
+  this.bufferLength = self.analyser.frequencyBinCount;
 
   this.dataArray = new Uint8Array(this.bufferLength);
 
@@ -44,39 +44,42 @@ var SoundCloudAudioSource = function(audio){
   }
 
   this.draw = function() {
-    analyser.getByteTimeDomainData(this.dataArray);
-    elem.clearRect(0, 0, two.width, two.height);
-    drawCanvas(this.dataArray, this.bufferLength);
-    // draw(this.dataArray, this.bufferLength);
+    self.analyser.getByteTimeDomainData(this.dataArray);
+    // drawCanvas(this.dataArray, this.bufferLength);
+    canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    drawBar(this.dataArray, this.bufferLength);
   };
 
 }
 
-function draw(dataArray, bufferLength){
-  drawVisual = requestAnimationFrame(draw);
+function drawBar(dataArray, bufferLength) {
+  // drawVisual = requestAnimationFrame(drawBar);
 
-  analyser.getByteFrequencyData(dataArray);
+  audiosource.analyser.getByteFrequencyData(dataArray);
 
-  elem.fillStyle = 'rgb(0, 0, 0)';
-  elem.fillRect(0, 0, two.width, two.height);
-  var barWidth = (two.width / bufferLength) * 2.5;
+  canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+  canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  var barWidth = (WIDTH / bufferLength) * 2.5;
   var barHeight;
   var x = 0;
-  for(var i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i]/2;
 
-    elem.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
-    elem.fillRect(x,two.height-barHeight/2,barWidth,barHeight);
+  for(var i = 0; i < bufferLength; i++) {
+    barHeight = dataArray[i];
+
+    canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+    canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
 
     x += barWidth + 1;
   }
-}
+};
 
 function drawCanvas(dataArray, bufferLength){
 
   var data = dataArray[0];
   var v = data / 128.0;
-  var y = v * two.height / 2;
+  var y = v * HEIGHT / 2;
 
   two.clear();
 
@@ -115,7 +118,7 @@ function drawCanvas(dataArray, bufferLength){
   // circle9.fill = '#E77471';
 
   var group = two.makeGroup(circle, circle2, circle3, circle4, circle5);
-  group.translation.set(two.width / 2, two.height / 2);
+  group.translation.set(WIDTH / 2, HEIGHT / 2);
   group.scale = 0;
   group.noStroke();
 
@@ -137,8 +140,12 @@ var player = document.getElementById('player');
 var stream = new SoundcloudStream(player);
 var audiosource = new SoundCloudAudioSource(player);
 var elem = document.getElementById('visualizer');
+var canvas = document.getElementById('haha');
+var canvasCtx = canvas.getContext('2d');
 var two = new Two({fullscreen: true}).appendTo(elem);
 var position = new Two.Vector(two.width/2, two.height/2);
+var WIDTH = two.width;
+var HEIGHT = two.height;
 
 
 var play = function(trackurl) {
