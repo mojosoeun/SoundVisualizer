@@ -151,8 +151,16 @@ var canvas = document.getElementById('viewport');
 var canvasCtx = canvas.getContext('2d');
 var two = new Two({fullscreen: true}).appendTo(elem);
 var position = new Two.Vector(two.width/2, two.height/2);
-var WIDTH = 1000;
-var HEIGHT = 1000;
+
+window.addEventListener('resize', resizeCanvas, false);
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+
+var WIDTH = canvas.width;
+var HEIGHT = canvas.height;
 
 
 var play = function(trackurl) {
