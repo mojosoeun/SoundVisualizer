@@ -87,81 +87,60 @@ function drawBar() {
   }
 };
 
-function drawCanvas(dataArray, bufferLength){
-
-  var data = dataArray[0];
-  var v = data / 128.0;
-  var y = v * HEIGHT / 2;
-
-  two.clear();
-
-  var circle = two.makeCircle(position.x, position.y, y);
-  circle.fill = '#BF0A19';
-
-  var circle2 = two.makeCircle(position.x, position.y - 1000, y);
-  circle2.fill = '#F20C36';
-
-  var circle3 = two.makeCircle(position.x, position.y - 2000, y);
-  circle3.fill = '#0E2773';
-
-  var circle4 = two.makeCircle(position.x, position.y + 1000, y);
-  circle4.fill = '#7BBF78';
-
-  var circle5 = two.makeCircle(position.x, position.y + 2000, y);
-  circle5.fill = '#F2DF80';
-  // var circle2 = two.makeCircle(position.x - 1000, position.y - 1000, y);
-  // circle2.fill = '#FF8000';
-  // var circle3 = two.makeCircle(position.x - 1000, position.y + 1000, y);
-  // circle3.fill = '#FF8000';
-  // var circle4 = two.makeCircle(position.x + 1000, position.y - 1000, y);
-  // circle4.fill = '#FF8000';
-  //
-  // var circle5 = two.makeCircle(position.x + 1000, position.y + 1000 , y);
-  // circle5.fill = '#E77471';
-  //
-  // var circle6 = two.makeCircle(position.x - 2000, position.y - 2000, y);
-  // circle6.fill = '#FF8000';
-  // var circle7 = two.makeCircle(position.x - 2000, position.y + 2000, y);
-  // circle7.fill = '#FF8000';
-  // var circle8 = two.makeCircle(position.x + 2000, position.y - 2000, y);
-  // circle8.fill = '#FF8000';
-  //
-  // var circle9 = two.makeCircle(position.x + 2000, position.y + 2000 , y);
-  // circle9.fill = '#E77471';
-
-  var group = two.makeGroup(circle, circle2, circle3, circle4, circle5);
-  group.translation.set(WIDTH / 2, HEIGHT / 2);
-  group.scale = 0;
-  group.noStroke();
-
-  // Bind a function to scale and rotate the group
-  // to the animation loop.
-  two.bind('update', function(frameCount) {
-    // This code is called everytime two.update() is called.
-    // Effectively 60 times per second.
-    if (group.scale > 0.9999) {
-      group.scale = group.rotation = 0;
-    }
-    var t = (1 - group.scale) * 0.125;
-    group.scale += t;
-    group.rotation += t * 4 * Math.PI;
-  }).play();  // Finally, start the animation loop
-}
+// function drawCanvas(dataArray, bufferLength){
+//
+//   var data = dataArray[0];
+//   var v = data / 128.0;
+//   var y = v * HEIGHT / 2;
+//
+//   two.clear();
+//
+//   var circle = two.makeCircle(position.x, position.y, y);
+//   circle.fill = '#BF0A19';
+//
+//   var circle2 = two.makeCircle(position.x, position.y - 1000, y);
+//   circle2.fill = '#F20C36';
+//
+//   var circle3 = two.makeCircle(position.x, position.y - 2000, y);
+//   circle3.fill = '#0E2773';
+//
+//   var circle4 = two.makeCircle(position.x, position.y + 1000, y);
+//   circle4.fill = '#7BBF78';
+//
+//   var circle5 = two.makeCircle(position.x, position.y + 2000, y);
+//   circle5.fill = '#F2DF80';
+//
+//   var group = two.makeGroup(circle, circle2, circle3, circle4, circle5);
+//   group.translation.set(WIDTH / 2, HEIGHT / 2);
+//   group.scale = 0;
+//   group.noStroke();
+//
+//   // Bind a function to scale and rotate the group
+//   // to the animation loop.
+//   two.bind('update', function(frameCount) {
+//     // This code is called everytime two.update() is called.
+//     // Effectively 60 times per second.
+//     if (group.scale > 0.9999) {
+//       group.scale = group.rotation = 0;
+//     }
+//     var t = (1 - group.scale) * 0.125;
+//     group.scale += t;
+//     group.rotation += t * 4 * Math.PI;
+//   }).play();  // Finally, start the animation loop
+// }
 
 var player = document.getElementById('player'),
     stream = new SoundcloudStream(player),
     audiosource = new SoundCloudAudioSource(player),
-    elem = document.getElementById('visualizer'),
     canvas = document.getElementById('viewport'),
-    canvasCtx = canvas.getContext('2d'),
-    two = new Two({fullscreen: true}).appendTo(elem),
-    position = new Two.Vector(two.width/2, two.height/2);
-var posX = 20,
-    posY = canvas.height / 2;
-// Initial velocities
-var vx = 10,
-    vy = -10,
-    gravity = 1;
+    canvasCtx = canvas.getContext('2d');
+    // two = new Two({fullscreen: true}).appendTo(elem),
+    // position = new Two.Vector(two.width/2, two.height/2);
+// var posX = 20,
+//     posY = canvas.height / 2;
+// var vx = 10,
+//     vy = -10,
+//     gravity = 1;
 
 
 window.addEventListener('resize', resizeCanvas, false);
@@ -177,6 +156,8 @@ var HEIGHT = canvas.height;
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
+    $('.LP, .hidden').hide('slow');
+    $('#viewport').show();
     audiosource.playStream(stream.streamUrl);
     audiosource.draw();
     // setInterval(function(){ audiosource.draw() }, 1000 / 400);
@@ -186,7 +167,9 @@ var play = function(trackurl) {
   });
 };
 
-var track_url = 'https://soundcloud.com/cosmosmidnight/cosmos-midnight-walk-with-me-feat-kucka';
-play(track_url);
+$( "form" ).submit(function() {
+  var trackUrl = $('input').val();
+  play(trackUrl);
+});
 
 }());
