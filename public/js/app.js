@@ -156,8 +156,9 @@ var HEIGHT = canvas.height;
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
-    $('.LP, .hidden').hide('slow');
-    $('#viewport').show();
+    document.getElementById('LP-percent').style.display = 'none';
+    document.getElementById('controlPanel').style.display = 'none';
+    document.getElementById('viewport').style.display = 'block';
     audiosource.playStream(stream.streamUrl);
     audiosource.draw();
     // setInterval(function(){ audiosource.draw() }, 1000 / 400);
@@ -167,8 +168,9 @@ var play = function(trackurl) {
   });
 };
 
-$( "form" ).submit(function() {
-  var trackUrl = $('input').val();
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  var trackUrl = document.getElementById('input').value;
   play(trackUrl);
 });
 
