@@ -1,7 +1,7 @@
 * { margin:0; padding:0; } /* to remove the top and left whitespace */
 
 @font-face {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 html, body {
@@ -20,11 +20,11 @@ canvas { display:block; } /* To remove the scrollbars */
 }
 
 div.LP {
-  margin: 50px auto;
+  margin: 10px auto;
   border: 2px outset rgba(255,255, 255, 0.4);
   border-radius: 50%;
-  height: 600px;
-  width: 600px;
+  height: 450px;
+  width: 450px;
   animation-name: turntable;
   animation-duration: 3.6s;
   animation-timing-function: linear;
@@ -65,7 +65,7 @@ div.LP p {
 #controlPanel {
     z-index: 50;
     position: absolute;
-    bottom: 60px;
+    bottom: 5px;
     width: 100%;
     color: #999;
     max-height: 600px;
@@ -108,6 +108,8 @@ div.LP p {
 }
 
 .title {
+  padding-top: 100px;
+  font-weight: bold;
   font-size: 4.5em;
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
