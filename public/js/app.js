@@ -153,18 +153,6 @@ resizeCanvas();
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
 
-function fadeOut(el){
-  el.style.opacity = 1;
-
-  (function fade() {
-    if ((el.style.opacity -= .1) < 0) {
-      el.style.display = 'none';
-      el.classList.add('is-hidden');
-    } else {
-      requestAnimationFrame(fade);
-    }
-  })();
-}
 function fade(element) {
     var op = 1;
     var timer = setInterval(function () {
