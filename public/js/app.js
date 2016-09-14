@@ -153,11 +153,38 @@ resizeCanvas();
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
 
+function fadeOut(el){
+  el.style.opacity = 1;
+
+  (function fade() {
+    if ((el.style.opacity -= .1) < 0) {
+      el.style.display = 'none';
+      el.classList.add('is-hidden');
+    } else {
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+function fade(element) {
+    var op = 1;
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
-    document.getElementById('LP-percent').style.display = 'none';
-    document.getElementById('controlPanel').style.display = 'none';
+    fade(document.getElementById('controlPanel'));
+    fade(document.getElementById('LP-percent'));
+    // document.getElementById('LP-percent').style.display = 'none';
+    // document.getElementById('controlPanel').style.display = 'none';
     document.getElementById('viewport').style.display = 'block';
     audiosource.playStream(stream.streamUrl);
     audiosource.draw();
