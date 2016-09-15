@@ -31,6 +31,7 @@
 }
 
 html, body {
+  overflow: hidden;
   width:100%;
   height:100%;
   background: #fc00ff; /* fallback for old browsers */
@@ -46,7 +47,7 @@ canvas { display:block; } /* To remove the scrollbars */
 }
 
 div.LP {
-  margin: 10px auto;
+  margin: auto;
   border: 2px outset rgba(255,255, 255, 0.4);
   border-radius: 50%;
   height: 450px;
@@ -89,9 +90,9 @@ div.LP p {
 }
 
 #controlPanel {
-    /*z-index: 50;
+    z-index: 50;
     position: absolute;
-    bottom: 5px;*/
+    /*bottom: 5px;*/
     width: 100%;
     color: #999;
     max-height: 600px;
@@ -134,7 +135,7 @@ div.LP p {
 }
 
 .title {
-  padding-top: 50px;
+  padding-top: 70px;
   font-weight: bold;
   font-size: 4.5em;
   text-align: center;
