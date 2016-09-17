@@ -78,7 +78,7 @@ function drawBar() {
 
   for(var i = 0; i < audiosource.bufferLength; i++) {
     barData = audiosource.dataArray[i];
-    barHeight = barData * 4;
+    barHeight = barData * 3;
 
     canvasCtx.fillStyle = 'rgba(' + (barData+150) + ', '+ (barData+150)+',' + (barData+150) + ', 0.5'+')';
     canvasCtx.fillRect(x, HEIGHT-barHeight/2, barWidth, barHeight/2);
@@ -114,13 +114,13 @@ function fade(element) {
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
         op -= op * 0.1;
-    }, 50);
+    }, 1000);
 }
 
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
-    fade(document.getElementById('controlPanel'));
+    // fade(document.getElementById('controlPanel'));
     fade(document.getElementById('LP-percent'));
     // document.getElementById('LP-percent').style.display = 'none';
     // document.getElementById('controlPanel').style.display = 'none';
