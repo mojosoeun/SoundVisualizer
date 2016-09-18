@@ -44,22 +44,12 @@ var SoundCloudAudioSource = function(audio){
   }
 
   this.draw = function() {
-    // self.analyser.getByteTimeDomainData(this.dataArray);
-      // self.analyser.getByteFrequencyData(dataArray);
-
-    // drawCanvas(this.dataArray, this.bufferLength);
-
-
-    canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    // drawBar(this.dataArray, this.bufferLength);
-    drawBar();
+    drawBar(this.dataArray, this.bufferLength);
   };
 
 }
 
 function drawBar() {
-  // drawVisual = requestAnimationFrame(drawBar);
   var drawVisual = requestAnimationFrame(drawBar);
 
   audiosource.analyser.getByteFrequencyData(audiosource.dataArray);
@@ -68,7 +58,6 @@ function drawBar() {
   gradient.addColorStop(0,"#00dbde");
   gradient.addColorStop(1,"#fc00ff");
   canvasCtx.fillStyle = gradient;
-  // canvasCtx.fillStyle = 'rgb(255, 255, 255)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
   var barWidth = (WIDTH / audiosource.bufferLength) * 2.5;
@@ -78,12 +67,22 @@ function drawBar() {
 
   for(var i = 0; i < audiosource.bufferLength; i++) {
     barData = audiosource.dataArray[i];
+    // mesh.rotation.x += barData;
+    // mesh.rotation.y += barData + 1;
     barHeight = barData * 3;
 
     canvasCtx.fillStyle = 'rgba(' + (barData+150) + ', '+ (barData+150)+',' + (barData+150) + ', 0.5'+')';
     canvasCtx.fillRect(x, HEIGHT-barHeight/2, barWidth, barHeight/2);
+    canvasCtx.beginPath();
+    canvasCtx.arc(x, HEIGHT-barHeight/2 - 100, barWidth /3 , 0, 2 * Math.PI, false);
+    canvasCtx.fill();
+
     x += barWidth + 1;
   }
+
+
+
+  // renderer.render(scene, camera);
 };
 
 var player = document.getElementById('player'),
@@ -91,8 +90,6 @@ var player = document.getElementById('player'),
     audiosource = new SoundCloudAudioSource(player),
     canvas = document.getElementById('viewport'),
     canvasCtx = canvas.getContext('2d');
-    // two = new Two({fullscreen: true}).appendTo(elem),
-    // position = new Two.Vector(two.width/2, two.height/2);
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
@@ -120,14 +117,11 @@ function fade(element) {
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
-    // fade(document.getElementById('controlPanel'));
+    fade(document.getElementById('controlPanel'));
     fade(document.getElementById('LP-percent'));
-    // document.getElementById('LP-percent').style.display = 'none';
-    // document.getElementById('controlPanel').style.display = 'none';
     document.getElementById('viewport').style.display = 'block';
     audiosource.playStream(stream.streamUrl);
     audiosource.draw();
-    // setInterval(function(){ audiosource.draw() }, 1000 / 400);
   },
   function(error) {
     console.log(error);
