@@ -9,8 +9,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   </head>
   <body>
+    <div id="viewport"></div>
     <audio id="player" controls preload autobuffer style="display: none"></audio>
-    <canvas id="viewport" class="vp"></canvas>
+
     <div class="hidden" id="controlPanel">
       <div id="playerControls">
         <form id="form">
@@ -22,10 +23,6 @@
     <p id="title" class="title"> Sound Visualizer </p>
     <div class="LP" id="LP-percent"></div>
 
-    <!-- <script src="lib/two.min.js"></script> -->
-    <script src="lib/three.min.js"></script>
-    <script src="lib/Projector.js"></script>
-    <script src="lib/CanvasRenderer.js"></script>
     <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
     <script src="config.js"></script>
     <script src="js/app.js"></script>

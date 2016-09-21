@@ -43,63 +43,102 @@ var SoundCloudAudioSource = function(audio){
     audio.play();
   }
 
-  this.draw = function() {
-    drawBar(this.dataArray, this.bufferLength);
-  };
-
 }
+var Visualizer = function() {
+  var fgCanvas;
+  var fgCtx;
+  var bgCanvas;
+  var bgCtx;
+  var audioSource;
+  var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
-function drawBar() {
-  var drawVisual = requestAnimationFrame(drawBar);
+  var drawBg = function(){
+    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    bgCtx.beginPath();
+    bgCtx.rect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  audiosource.analyser.getByteFrequencyData(audiosource.dataArray);
+    var r = Math.floor(Math.random() * (3 + 1));
+    var gradient = bgCtx.createLinearGradient(0,0,1500,0);
 
-  var gradient = canvasCtx.createLinearGradient(0,0,1500,0);
-  gradient.addColorStop(0,"#00dbde");
-  gradient.addColorStop(1,"#fc00ff");
-  canvasCtx.fillStyle = gradient;
-  canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  var barWidth = (WIDTH / audiosource.bufferLength) * 2.5;
-  var barHeight;
-  var barData;
-  var x = 0;
-
-  for(var i = 0; i < audiosource.bufferLength; i++) {
-    barData = audiosource.dataArray[i];
-    // mesh.rotation.x += barData;
-    // mesh.rotation.y += barData + 1;
-    barHeight = barData * 3;
-
-    canvasCtx.fillStyle = 'rgba(' + (barData+150) + ', '+ (barData+150)+',' + (barData+150) + ', 0.5'+')';
-    canvasCtx.fillRect(x, HEIGHT-barHeight/2, barWidth, barHeight/2);
-    canvasCtx.beginPath();
-    canvasCtx.arc(x, HEIGHT-barHeight/2 - 100, barWidth /3 , 0, 2 * Math.PI, false);
-    canvasCtx.fill();
-
-    x += barWidth + 1;
+    gradient.addColorStop(0, gradientColor[r][0]); //#00DBDE'rgb(0, 219, 222)'
+    gradient.addColorStop(1, gradientColor[r][1]); //#fc00ff'rgb(252, 0, 255)'
+    bgCtx.fillStyle = gradient;
+    bgCtx.fill();
   }
 
+  this.resizeCanvas = function() {
+    if (fgCanvas) {
+        // resize the foreground canvas
+        fgCanvas.width = window.innerWidth;
+        fgCanvas.height = window.innerHeight;
+        // fgCtx.translate(fgCanvas.width/2,fgCanvas.height/2);
 
+        // resize the bg canvas
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
 
-  // renderer.render(scene, camera);
-};
+        // tileSize = fgCanvas.width > fgCanvas.height ? fgCanvas.width / 25 : fgCanvas.height / 25;
 
-var player = document.getElementById('player'),
-    stream = new SoundcloudStream(player),
-    audiosource = new SoundCloudAudioSource(player),
-    canvas = document.getElementById('viewport'),
-    canvasCtx = canvas.getContext('2d');
+        drawBg();
 
-window.addEventListener('resize', resizeCanvas, false);
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    }
+  };
+
+  var draw = function() {
+
+    audiosource.analyser.getByteFrequencyData(audiosource.dataArray);
+
+    fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
+
+    // fgCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    var barWidth = (fgCanvas.width / audiosource.bufferLength) * 2.5;
+    var barHeight;
+    var barData;
+    var x = 0;
+
+    for(var i = 0; i < audiosource.bufferLength; i++) {
+      barData = audiosource.dataArray[i];
+      // mesh.rotation.x += barData;
+      // mesh.rotation.y += barData + 1;
+      barHeight = barData * 3;
+
+      fgCtx.fillStyle = 'rgba(' + (barData+200) + ', '+ (barData+200)+',' + (barData+200) + ', 0.4'+')';
+      fgCtx.fillRect(x, fgCanvas.height-barHeight/2, barWidth, barHeight/2);
+      fgCtx.beginPath();
+      fgCtx.arc(x, fgCanvas.height-barHeight/2 - 100, barWidth /3 , 0, 2 * Math.PI, false);
+      fgCtx.fill();
+
+      x += barWidth + 1;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  this.init = function(audiosource) {
+    audiosource = audiosource;
+    var canvas = document.getElementById('viewport');
+    fgCanvas = document.createElement('canvas');
+    fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
+    fgCtx = fgCanvas.getContext("2d");
+    canvas.appendChild(fgCanvas);
+
+    bgCanvas = document.createElement('canvas');
+    bgCtx = bgCanvas.getContext("2d");
+    canvas.appendChild(bgCanvas);
+
+    this.resizeCanvas();
+    draw();
+    setInterval(drawBg, 500);
+    window.addEventListener('resize', this.resizeCanvas, false);
+  }
+
 }
-resizeCanvas();
 
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
+var visualizer = new Visualizer(),
+    player = document.getElementById('player'),
+    stream = new SoundcloudStream(player),
+    form = document.getElementById('form'),
+    audiosource = new SoundCloudAudioSource(player);
 
 function fade(element) {
     var op = 1;
@@ -117,21 +156,36 @@ function fade(element) {
 var play = function(trackurl) {
   stream.loadStream(trackurl,
   function() {
-    fade(document.getElementById('controlPanel'));
-    fade(document.getElementById('LP-percent'));
-    document.getElementById('viewport').style.display = 'block';
+    // fade(document.getElementById('controlPanel'));
+    // fade(document.getElementById('LP-percent'));
+    document.getElementById('viewport').style.display= 'block';
+    document.getElementById('controlPanel').style.display = 'none';
+    document.getElementById('LP-percent').style.display = 'none';
     audiosource.playStream(stream.streamUrl);
-    audiosource.draw();
+    visualizer.init(audiosource);
+    // audiosource.draw();
   },
   function(error) {
     console.log(error);
   });
 };
 
+
 form.addEventListener('submit', function(e) {
   e.preventDefault();
   var trackUrl = document.getElementById('input').value;
   play(trackUrl);
 });
+
+player.addEventListener("ended", function(){
+  player.currentTime = 0;
+  document.getElementById('viewport').style.display= 'none';
+  document.getElementById('controlPanel').style.display = 'block';
+  document.getElementById('LP-percent').style.display = 'block';
+  clearInterval(visualizer.drawBg);
+
+  // document.getElementById('controlPanel').style.display = 'block';
+});
+// play("https://soundcloud.com/cosmosmidnight/cosmos-midnight-walk-with-me-feat-kucka");
 
 }());
