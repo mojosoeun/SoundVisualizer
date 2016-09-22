@@ -128,7 +128,7 @@ var Visualizer = function() {
 
     this.resizeCanvas();
     draw();
-    setInterval(drawBg, 500);
+    setInterval(drawBg, 1000 / 10);
     window.addEventListener('resize', this.resizeCanvas, false);
   }
 
