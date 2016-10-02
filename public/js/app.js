@@ -6,6 +6,7 @@ var SoundcloudStream = function() {
   var client_id = SOUNDCLOUD_API_KEY;
   this.sound = {};
   this.streamUrl = "";
+  this.artwork_url = "";
 
   this.loadStream = function(track_url, successCallback, errorCallback) {
     SC.initialize({
@@ -15,6 +16,7 @@ var SoundcloudStream = function() {
     SC.resolve(track_url)
     .then(function(data){
       self.streamUrl = data.stream_url + '?client_id=' + client_id;
+      self.artwork_url = data.artwork_url;
       successCallback();
 
     }).catch(function(error){
@@ -49,6 +51,7 @@ var Visualizer = function() {
   var fgCtx;
   var bgCanvas;
   var bgCtx;
+  var albumImg;
   var audioSource;
   var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
@@ -122,6 +125,11 @@ var Visualizer = function() {
     fgCtx = fgCanvas.getContext("2d");
     canvas.appendChild(fgCanvas);
 
+    albumImg = document.createElement('img');
+    albumImg.setAttribute('src', stream.artwork_url);
+    albumImg.setAttribute('style', 'position: absolute; z-index: 20; top: 10px; right: 10px;');
+    canvas.appendChild(albumImg);
+
     bgCanvas = document.createElement('canvas');
     bgCtx = bgCanvas.getContext("2d");
     canvas.appendChild(bgCanvas);
@@ -134,13 +142,7 @@ var Visualizer = function() {
 
 }
 
-var visualizer = new Visualizer(),
-    player = document.getElementById('player'),
-    stream = new SoundcloudStream(player),
-    form = document.getElementById('form'),
-    audiosource = new SoundCloudAudioSource(player);
-
-function fade(element) {
+var fade = function(element) {
     var op = 1;
     var timer = setInterval(function () {
         if (op <= 0.1){
@@ -170,6 +172,11 @@ var play = function(trackurl) {
   });
 };
 
+var visualizer = new Visualizer(),
+    player = document.getElementById('player'),
+    stream = new SoundcloudStream(player),
+    form = document.getElementById('form'),
+    audiosource = new SoundCloudAudioSource(player);
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -186,6 +193,9 @@ player.addEventListener("ended", function(){
 
   // document.getElementById('controlPanel').style.display = 'block';
 });
+
+
+
 // play("https://soundcloud.com/cosmosmidnight/cosmos-midnight-walk-with-me-feat-kucka");
 
 }());
