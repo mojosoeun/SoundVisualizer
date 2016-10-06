@@ -10,16 +10,28 @@
   </head>
   <body>
     <div id="viewport"></div>
-    <audio id="player" crossOrigin="anonymous" controls preload autobuffer style="display: none"></audio>
-
-    <div class="hidden" id="controlPanel">
+    <div id="controlPanel" class="hidden">
+        <div id="tab"><a href="#" id="toggleButton"><i class="icon-menu"></i></a></div>
+        <div id="trackInfoPanel" class="hidden">
+        </div>
+        <div id="playerControls">
+            <form id="form">
+                <input id="input" placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)">
+                <button type="submit" id="submit"><i class="icon-play"></i></button><br>
+            </form>
+            <audio id="audio" controls="" autoplay="" preload autobuffer></audio>
+        </div>
+    </div>
+    <!-- <div class="hidden" id="controlPanel">
       <div id="playerControls">
         <form id="form">
             <input id="input" placeholder="Soundcloud URL (https://soundcloud.com/artist/track)">
             <button type="submit" id="submit"><i class="icon-play"></i></button><br>
         </form>
+        <audio id="player" crossOrigin="anonymous" controls="" autoplay="" preload autobuffer></audio>
       </div>
-    </div>
+      <div id="tab"><a href="#" id="toggleButton"><i class="icon-menu"></i></a></div>
+    </div> -->
     <p id="title" class="title"> Sound Visualizer </p>
     <div class="LP" id="LP-percent"></div>
 
