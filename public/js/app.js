@@ -73,8 +73,12 @@
       audio.addEventListener("ended", function(){
         stream.directStream('coasting');
         // audio.currentTime = 0;
-        // document.getElementById('viewport').style.display= 'none';
-        // document.getElementById('controlPanel').style.display = 'block';
+        setTimeout(function(){
+          document.getElementById('viewport').style.display= 'none';
+          document.getElementById('controlPanel').style.display = 'block';
+        }, 3000); // auto-hide the control panel
+
+
         // document.getElementById('LP-percent').style.display = 'block';
         // clearInterval(visualizer.drawBg);
 
