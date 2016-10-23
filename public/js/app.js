@@ -74,7 +74,13 @@
 
   };
   var Visualizer = function() {
-    var fgCanvas,fgCtx,bgCanvas,bgCtx,audioSource,albumImg,canvas;
+    var fgCanvas;
+    var fgCtx;
+    var bgCanvas;
+    var bgCtx;
+    var audioSource;
+    var albumImg;
+    var canvas;
     var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
     var drawBg = function(){
@@ -107,14 +113,16 @@
     };
 
     var draw = function() {
-      var barWidth = (fgCanvas.width / audioSource.bufferLength) * 2.5,
-          barHeight, barData, x = 0;
+      var barHeight;
+      var barData;
+      var barWidth = (fgCanvas.width / audioSource.bufferLength) * 2.5;
+      var x = 0;
 
       audioSource.analyser.getByteFrequencyData(audioSource.dataArray);
 
       fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
 
-      for(var i = 0; i < audioSource.bufferLength; i++) {
+      for (var i = 0; i < audioSource.bufferLength; i++) {
         barData = audioSource.dataArray[i];
         barHeight = barData * 3;
 
@@ -139,8 +147,10 @@
     }
 
     this.init = function(option) {
+
       audioSource = option.audioSource;
       canvas = document.getElementById(option.drawPanel);
+
       fgCanvas = document.createElement('canvas');
       fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
       fgCtx = fgCanvas.getContext("2d");
@@ -175,14 +185,15 @@
       });
     };
 
-    var visualizer = new Visualizer(),
-        audio = document.getElementById('audio'),
-        uiController = new UIController(),
-        stream = new SoundcloudStream(audio, uiController),
-        form = document.getElementById('form'),
-        toggleButton = document.getElementById('toggleButton'),
-        audioSource = new SoundCloudaudioSource(audio),
-        drawPanel = document.getElementById('drawPanel');
+    var visualizer = new Visualizer();
+    var uiController = new UIController();
+    var stream = new SoundcloudStream(audio, uiController);
+    var audioSource = new SoundCloudaudioSource(audio),
+
+    var audio = document.getElementById('audio');
+    var form = document.getElementById('form');
+    var toggleButton = document.getElementById('toggleButton');
+    var drawPanel = document.getElementById('drawPanel');
 
     visualizer.init({
       drawPanel: 'drawPanel',
