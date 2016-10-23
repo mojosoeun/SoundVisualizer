@@ -74,13 +74,7 @@
 
   };
   var Visualizer = function() {
-    var fgCanvas;
-    var fgCtx;
-    var bgCanvas;
-    var bgCtx;
-    var audioSource;
-    var albumImg;
-    var canvas;
+    var fgCanvas,fgCtx,bgCanvas,bgCtx,audioSource,albumImg,canvas;
     var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
     var drawBg = function(){
@@ -113,14 +107,12 @@
     };
 
     var draw = function() {
+      var barWidth = (fgCanvas.width / audioSource.bufferLength) * 2.5,
+          barHeight, barData, x = 0;
+
       audioSource.analyser.getByteFrequencyData(audioSource.dataArray);
 
       fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
-
-      var barWidth = (fgCanvas.width / audioSource.bufferLength) * 2.5;
-      var barHeight;
-      var barData;
-      var x = 0;
 
       for(var i = 0; i < audioSource.bufferLength; i++) {
         barData = audioSource.dataArray[i];
@@ -204,6 +196,7 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var trackUrl = document.getElementById('input').value;
+      //TODO validation check
       play(trackUrl);
     });
 
