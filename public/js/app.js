@@ -188,7 +188,7 @@
     var visualizer = new Visualizer();
     var uiController = new UIController();
     var stream = new SoundcloudStream(audio, uiController);
-    var audioSource = new SoundCloudaudioSource(audio),
+    var audioSource = new SoundCloudaudioSource(audio);
 
     var audio = document.getElementById('audio');
     var form = document.getElementById('form');
