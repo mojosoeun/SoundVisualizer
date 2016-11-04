@@ -1,4 +1,4 @@
-//TODO Refactor CSS Refactoring 
+//TODO Refactor CSS Refactoring
 * { margin:0; padding:0; }
 
 @font-face {
@@ -41,7 +41,7 @@ html, body {
   overflow: hidden;
 }
 
-#controlPanel {
+.ctrgroup {
   z-index: 50;
   position: absolute;
   bottom: 35px;
@@ -53,18 +53,28 @@ html, body {
   transition: max-height 0.8s;
   overflow: hidden;
 }
-#controlPanel.hidden {
+.ctrgroup-hidden {
   max-height: 52px;
 }
-#tab {
+.ctrgroup__tab {
   padding: 10px 16px 2px 16px;
   font-size: 32px;
 }
-#tab>a {
+.ctrgroup__togglebtn {
   background-color: rgba(255, 255, 255, 0.15);
   padding: 7px 10px 3px 10px;
 }
-#playerControls {
+
+.ctrgroup__togglebtn, .ctrgroup__togglebtn:visited {
+  text-decoration: none;
+  color: #c6c6c6;
+}
+
+.ctrgroup__togglebtn:hover, .ctrgroup__togglebtn:active {
+  color: #fff;
+}
+
+.ctrgroup__player {
   text-align: center;
   position: relative;
   width: 100%;
@@ -72,7 +82,7 @@ html, body {
   background-color: rgba(255, 255, 255, 0.15);
   padding-top: 10px;
 }
-#input {
+.ctrgroup__player__form__input {
   font-size: 20px;
   padding: 8px;
   margin-bottom: 10px;
@@ -85,7 +95,8 @@ html, body {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-#submit {
+
+.ctrgroup__player__form__submit {
   position: absolute;
   color: #fff;
   font-size: 32px;
@@ -93,7 +104,8 @@ html, body {
   background: none;
   border: none;
 }
-#audio {
+
+.ctrgroup__player__audio {
   width: 95%;
 }
 
@@ -102,7 +114,7 @@ html, body {
   100% {transform: rotate(360deg)}
 }
 
-.LPPanel {
+.lp {
   margin: auto;
   border: 2px outset rgba(255,255, 255, 0.4);
   border-radius: 50%;
@@ -113,9 +125,6 @@ html, body {
   animation-timing-function: linear;
   animation-direction: normal;
   animation-iteration-count: infinite;
-}
-
-.LPPanel {
   background: radial-gradient(closest-side,
     rgba(255,255, 255, 0.4) 2.2%,
     rgba(255,255, 255, 0.6) 2.2%, rgba(255,255, 255, 0.6) 32.5%,
@@ -132,26 +141,17 @@ html, body {
     rgba(255,255, 255, 0.2) 89.7%, rgba(255,255, 255, 0.2) 90%,
     rgba(255,255, 255, 0.4) 90%, rgba(255,255, 255, 0.4) 96.7%,
     rgba(255,255, 255, 0.2) 96.7%);
-  }
+}
 
-  .title {
-    padding-top: 70px;
-    font-weight: bold;
-    font-size: 4.5em;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.7);
-  }
+.h1 {
+  font-weight: bold;
+  font-size: 4.5em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
 
-  a, a:visited {
-    text-decoration: none;
-    color: #c6c6c6;
+@media all and (max-width: 700px){
+  .p {
+    font-size: 50px;
   }
-  a:hover, a:active {
-    color: #fff;
-  }
-
-  @media all and (max-width: 700px){
-    .title {
-      font-size: 50px;
-    }
-  }
+}

@@ -1,16 +1,14 @@
 (function() {
   'use strict';
 
-  var SoundcloudStream = function(audio, uiController) {
+  var SoundCloudSetter = function(audio) {
     var self = this;
     var client_id = SOUNDCLOUD_API_KEY;
-    this.sound = {};
-    this.streamUrl = "";
-    this.artwork_url = "";
-    this.audio = audio;
-    this.uiController = uiController;
+    self.streamUrl = "";
+    self.artwork_url = "";
+    self.audio = audio;
 
-    this.loadStream = function(track_url, successCallback, errorCallback) {
+    this.loadSoundCloud = function(track_url, successCallback, errorCallback) {
       SC.initialize({
         client_id: client_id
       });
@@ -22,11 +20,12 @@
         successCallback();
 
       }).catch(function(error){
+
         errorCallback(error);
       });
     }
 
-    this.directStream = function(direction) {
+    this.directLoadSoundCloud = function(direction) {
       if (this.audio.paused) {
           this.audio.play();
         } else {
@@ -35,52 +34,50 @@
       }
   };
 
-  var SoundCloudaudioSource = function(audio){
-    var self = this;
+  var SoundCloudAudioSource = function(audio){
     var audioCtx = new (window.AudioContext || window.webkitAudioContext);
     var source = audioCtx.createMediaElementSource(audio);
 
-    self.analyser = audioCtx.createAnalyser();
-    self.analyser.fftSize = 256;
+    this.analyser = audioCtx.createAnalyser();
+    var bufferLength = this.analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
+
+    this.analyser.fftSize = 256;
+    this.analyser.connect(audioCtx.destination);
+
     audio.crossOrigin = "anonymous";
-    source.connect(self.analyser);
-    self.analyser.connect(audioCtx.destination);
-
-    this.bufferLength = self.analyser.frequencyBinCount;
-
-    this.dataArray = new Uint8Array(this.bufferLength);
+    source.connect(this.analyser);
 
     this.playStream = function(streamUrl) {
-      audio.addEventListener("ended", function(){
-        drawPanel.style.display = 'none';
-      });
       audio.setAttribute('src', streamUrl);
       audio.play();
     }
 
   }
 
-  var UIController = function() {
-    var controlPanel = document.getElementById('controlPanel');
+  var ControlGroup = function() {
 
-    this.toggleControlPanel = function() {
+    var ctrGroup = document.querySelector('.ctrgroup');
 
-      if (controlPanel.className.indexOf('hidden') === 0) {
-        controlPanel.className = '';
+    this.toggle = function() {
+
+      if (ctrGroup.className.indexOf('ctrgroup--hidden') === 1) {
+        ctrGroup.className = ctrGroup.className.split(' ')[0];
       } else {
-        controlPanel.className = 'hidden';
+        ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
       }
     };
 
   };
+
   var Visualizer = function() {
     var fgCanvas;
     var fgCtx;
     var bgCanvas;
     var bgCtx;
-    var audioSource;
     var albumImg;
     var canvas;
+    var audioSource;
     var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
     var drawBg = function(){
@@ -142,14 +139,14 @@
     }
 
     this.drawAlbumImg = function() {
-      albumImg.setAttribute('src', stream.artwork_url);
+      albumImg.setAttribute('src', soundCloud.artwork_url);
 
     }
 
     this.init = function(option) {
 
       audioSource = option.audioSource;
-      canvas = document.getElementById(option.drawPanel);
+      canvas = document.querySelector(option.canvas);
 
       fgCanvas = document.createElement('canvas');
       fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
@@ -173,47 +170,50 @@
   }
 
   var play = function(trackurl) {
-    stream.loadStream(trackurl,
+    soundCloud.loadSoundCloud(trackurl,
       function() {
-        audioSource.playStream(stream.streamUrl);
-        drawPanel.style.display = 'block';
+        audioSource.playStream(soundCloud.streamUrl);
+        canvas.style.display = 'block';
         visualizer.drawAlbumImg();
-        setTimeout(uiController.toggleControlPanel, 3000); // auto-hide the control panel
+        setTimeout(ctrGroup.toggle, 3000); // auto-hide the control panel
       },
       function(error) {
         console.log(error);
       });
-    };
+  };
 
-    var visualizer = new Visualizer();
-    var uiController = new UIController();
-    var stream = new SoundcloudStream(audio, uiController);
-    var audioSource = new SoundCloudaudioSource(audio);
+  var audio = document.querySelector('.ctrgroup__player__audio');
+  var form = document.querySelector('.ctrgroup__player__form');
+  var toggleButton = document.querySelector('.ctrgroup__togglebtn');
+  var canvas = document.querySelector('.canvas');
 
-    var audio = document.getElementById('audio');
-    var form = document.getElementById('form');
-    var toggleButton = document.getElementById('toggleButton');
-    var drawPanel = document.getElementById('drawPanel');
+  var soundCloud = new SoundCloudSetter(audio);
+  var audioSource = new SoundCloudAudioSource(audio);
+  var ctrGroup = new ControlGroup();
+  var visualizer = new Visualizer();
 
-    visualizer.init({
-      drawPanel: 'drawPanel',
-      audioSource: audioSource
-    });
+  visualizer.init({
+    canvas : '.canvas',
+    audioSource : audioSource,
+  });
 
-    drawPanel.style.display = 'none';
+  canvas.style.display = 'none';
+  ctrGroup.toggle();
 
-    uiController.toggleControlPanel();
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var trackUrl = document.querySelector('.ctrgroup__player__form__input').value;
+    //TODO validation check
+    play(trackUrl);
+  });
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var trackUrl = document.getElementById('input').value;
-      //TODO validation check
-      play(trackUrl);
-    });
+  toggleButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    ctrGroup.toggle();
+  });
 
-    toggleButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      uiController.toggleControlPanel();
-    });
+  audio.addEventListener("ended", function(){
+    canvas.style.display = 'none';
+  });
 
-  }());
+}());
