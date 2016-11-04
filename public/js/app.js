@@ -53,6 +53,7 @@
     this.playStream = function(streamUrl) {
       audio.addEventListener("ended", function(){
         drawPanel.style.display = 'none';
+        visualizer.clearBackEffect();
       });
       audio.setAttribute('src', streamUrl);
       audio.play();
@@ -145,6 +146,9 @@
       albumImg.setAttribute('src', stream.artwork_url);
 
     }
+    this.clearBackEffect = function() {
+      clearInterval(drawBg);
+    }
 
     this.init = function(option) {
 
@@ -185,16 +189,17 @@
       });
     };
 
-    var visualizer = new Visualizer();
-    var uiController = new UIController();
-    var stream = new SoundcloudStream(audio, uiController);
-    var audioSource = new SoundCloudaudioSource(audio);
-
     var audio = document.getElementById('audio');
     var form = document.getElementById('form');
     var toggleButton = document.getElementById('toggleButton');
     var drawPanel = document.getElementById('drawPanel');
 
+    var visualizer = new Visualizer();
+    var uiController = new UIController();
+    var stream = new SoundcloudStream(audio, uiController);
+    var audioSource = new SoundCloudaudioSource(audio);
+
+  
     visualizer.init({
       drawPanel: 'drawPanel',
       audioSource: audioSource
