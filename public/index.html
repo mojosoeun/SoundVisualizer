@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
   </head>
   <body>
-    <div class="canvas"></div>
+    <div class="visualPanel"></div>
     <div class="ctrgroup ctrgroup--hidden">
         <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><i class="icon-menu"></i></a></div>
         <div class="ctrgroup__player">
@@ -19,8 +19,10 @@
             <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
         </div>
     </div>
-    <h1 class="h1"> Sound Visualizer </h1>
-    <div class="lp"></div>
+    <section class="defaulPanel">
+      <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
+      <canvas class="defaulPanel__canvas"></canvas>
+    </section>
 
     <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
     <script src="config.js"></script>
