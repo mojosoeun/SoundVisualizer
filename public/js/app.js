@@ -29,9 +29,9 @@
     this.directLoadSoundCloud = function(direction) {
 
       if (this.audio.paused) {
-          this.audio.play();
+        this.audio.play();
       } else {
-          this.audio.pause();
+        this.audio.pause();
       }
     }
   };
@@ -146,6 +146,9 @@
       albumImg.setAttribute('src', soundCloud.artwork_url);
 
     }
+    this.clearBackEffect = function() {
+      clearInterval(drawBg);
+    }
 
     this.init = function(option) {
 
@@ -184,41 +187,41 @@
       function(error) {
         console.log(error);
       });
-  };
+    };
 
-  var audio = document.querySelector('.ctrgroup__player__audio');
-  var form = document.querySelector('.ctrgroup__player__form');
-  var toggleButton = document.querySelector('.ctrgroup__togglebtn');
-  var visualPanel = document.querySelector('.visualPanel');
-  var defaulPanel = document.querySelector('.defaulPanel');
+    var audio = document.querySelector('.ctrgroup__player__audio');
+    var form = document.querySelector('.ctrgroup__player__form');
+    var toggleButton = document.querySelector('.ctrgroup__togglebtn');
+    var visualPanel = document.querySelector('.visualPanel');
+    var defaulPanel = document.querySelector('.defaulPanel');
 
-  var soundCloud = new SoundCloudSetter(audio);
-  var audioSource = new SoundCloudAudioSource(audio);
-  var ctrGroup = new ControlGroup();
-  var visualizer = new Visualizer();
+    var soundCloud = new SoundCloudSetter(audio);
+    var audioSource = new SoundCloudAudioSource(audio);
+    var ctrGroup = new ControlGroup();
+    var visualizer = new Visualizer();
 
-  visualizer.init({
-    visualPanel : '.visualPanel',
-    audioSource : audioSource,
-  });
+    visualizer.init({
+      visualPanel : '.visualPanel',
+      audioSource : audioSource,
+    });
 
-  ctrGroup.toggle();
-  visualPanel.style.display = 'none';
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    defaulPanel.style.display = 'none';
-    var trackUrl = document.querySelector('.ctrgroup__player__form__input').value;
-    play(trackUrl);
-  });
-
-  toggleButton.addEventListener('click', function(e) {
-    e.preventDefault();
     ctrGroup.toggle();
-  });
-
-  audio.addEventListener("ended", function(){
     visualPanel.style.display = 'none';
-  });
 
-}());
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      defaulPanel.style.display = 'none';
+      var trackUrl = document.querySelector('.ctrgroup__player__form__input').value;
+      play(trackUrl);
+    });
+
+    toggleButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      ctrGroup.toggle();
+    });
+
+    audio.addEventListener("ended", function(){
+      visualPanel.style.display = 'none';
+    });
+
+  }());
