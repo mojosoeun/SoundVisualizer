@@ -1,16 +1,15 @@
 (function() {
   'use strict';
 
-  var SoundcloudStream = function(audio, uiController) {
+  var SoundCloudSetter = function(audio) {
     var self = this;
     var client_id = SOUNDCLOUD_API_KEY;
-    this.sound = {};
-    this.streamUrl = "";
-    this.artwork_url = "";
-    this.audio = audio;
-    this.uiController = uiController;
+    self.streamUrl = "";
+    self.artwork_url = "";
+    self.audio = audio;
 
-    this.loadStream = function(track_url, successCallback, errorCallback) {
+    this.loadSoundCloud = function(track_url, successCallback, errorCallback) {
+
       SC.initialize({
         client_id: client_id
       });
@@ -22,20 +21,22 @@
         successCallback();
 
       }).catch(function(error){
+
         errorCallback(error);
       });
     }
 
-    this.directStream = function(direction) {
+    this.directLoadSoundCloud = function(direction) {
+
       if (this.audio.paused) {
-          this.audio.play();
-        } else {
-          this.audio.pause();
-        }
+        this.audio.play();
+      } else {
+        this.audio.pause();
       }
+    }
   };
 
-  var SoundCloudaudioSource = function(audio){
+  var SoundCloudAudioSource = function(audio){
     var self = this;
     var audioCtx = new (window.AudioContext || window.webkitAudioContext);
     var source = audioCtx.createMediaElementSource(audio);
@@ -51,37 +52,36 @@
     this.dataArray = new Uint8Array(this.bufferLength);
 
     this.playStream = function(streamUrl) {
-      audio.addEventListener("ended", function(){
-        drawPanel.style.display = 'none';
-        visualizer.clearBackEffect();
-      });
       audio.setAttribute('src', streamUrl);
       audio.play();
     }
 
   }
 
-  var UIController = function() {
-    var controlPanel = document.getElementById('controlPanel');
+  var ControlGroup = function() {
 
-    this.toggleControlPanel = function() {
+    var ctrGroup = document.querySelector('.ctrgroup');
 
-      if (controlPanel.className.indexOf('hidden') === 0) {
-        controlPanel.className = '';
+    this.toggle = function() {
+
+      if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+        ctrGroup.className = ctrGroup.className.split(' ')[0];
       } else {
-        controlPanel.className = 'hidden';
+        ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
       }
+
     };
 
   };
+
   var Visualizer = function() {
     var fgCanvas;
     var fgCtx;
     var bgCanvas;
     var bgCtx;
-    var audioSource;
     var albumImg;
     var canvas;
+    var audioSource;
     var gradientColor = {0: ['#89fffd' , '#ef32d9'], 1:['#00dbde','#fc00ff'], 2: ['#7BC6CC' , '#BE93C5'], 3 : ['#E55D87' , '#5FC3E4']};
 
     var drawBg = function(){
@@ -123,7 +123,7 @@
 
       fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
 
-      for (var i = 0; i < audioSource.bufferLength; i++) {
+      for (var i = 0, l = audioSource.bufferLength; i < l; i++) {
         barData = audioSource.dataArray[i];
         barHeight = barData * 3;
 
@@ -143,7 +143,7 @@
     }
 
     this.drawAlbumImg = function() {
-      albumImg.setAttribute('src', stream.artwork_url);
+      albumImg.setAttribute('src', soundCloud.artwork_url);
 
     }
     this.clearBackEffect = function() {
@@ -153,7 +153,7 @@
     this.init = function(option) {
 
       audioSource = option.audioSource;
-      canvas = document.getElementById(option.drawPanel);
+      canvas = document.querySelector(option.visualPanel);
 
       fgCanvas = document.createElement('canvas');
       fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
@@ -177,48 +177,51 @@
   }
 
   var play = function(trackurl) {
-    stream.loadStream(trackurl,
+    soundCloud.loadSoundCloud(trackurl,
       function() {
-        audioSource.playStream(stream.streamUrl);
-        drawPanel.style.display = 'block';
+        audioSource.playStream(soundCloud.streamUrl);
+        visualPanel.style.display = 'block';
         visualizer.drawAlbumImg();
-        setTimeout(uiController.toggleControlPanel, 3000); // auto-hide the control panel
+        setTimeout(ctrGroup.toggle, 3000); // auto-hide the control panel
       },
       function(error) {
         console.log(error);
       });
     };
 
-    var audio = document.getElementById('audio');
-    var form = document.getElementById('form');
-    var toggleButton = document.getElementById('toggleButton');
-    var drawPanel = document.getElementById('drawPanel');
+    var audio = document.querySelector('.ctrgroup__player__audio');
+    var form = document.querySelector('.ctrgroup__player__form');
+    var toggleButton = document.querySelector('.ctrgroup__togglebtn');
+    var visualPanel = document.querySelector('.visualPanel');
+    var defaulPanel = document.querySelector('.defaulPanel');
 
+    var soundCloud = new SoundCloudSetter(audio);
+    var audioSource = new SoundCloudAudioSource(audio);
+    var ctrGroup = new ControlGroup();
     var visualizer = new Visualizer();
-    var uiController = new UIController();
-    var stream = new SoundcloudStream(audio, uiController);
-    var audioSource = new SoundCloudaudioSource(audio);
 
-  
     visualizer.init({
-      drawPanel: 'drawPanel',
-      audioSource: audioSource
+      visualPanel : '.visualPanel',
+      audioSource : audioSource,
     });
 
-    drawPanel.style.display = 'none';
-
-    uiController.toggleControlPanel();
+    ctrGroup.toggle();
+    visualPanel.style.display = 'none';
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      var trackUrl = document.getElementById('input').value;
-      //TODO validation check
+      defaulPanel.style.display = 'none';
+      var trackUrl = document.querySelector('.ctrgroup__player__form__input').value;
       play(trackUrl);
     });
 
     toggleButton.addEventListener('click', function(e) {
       e.preventDefault();
-      uiController.toggleControlPanel();
+      ctrGroup.toggle();
+    });
+
+    audio.addEventListener("ended", function(){
+      visualPanel.style.display = 'none';
     });
 
   }());
