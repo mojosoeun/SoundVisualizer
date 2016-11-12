@@ -5,4 +5,4 @@
 
 | <img src="https://clipboardjs.com/assets/images/chrome.png" width="48px" height="48px" alt="Chrome logo"> | <img  src="https://clipboardjs.com/assets/images/firefox.png" width="48px" height="48px" alt="Firefox logo"> | <img src="https://clipboardjs.com/assets/images/opera.png" width="48px" height="48px" alt="Opera logo"> | <img src="https://clipboardjs.com/assets/images/safari.png" width="48px" height="48px" alt="Safari logo"> |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| 42+ ✔ | 41+ ✔ | 29+ ✔ | 10+ ✔ |
+| 49+ ✔ | 49+ ✔ | 41+ ✔ | 10+ ✔ |
