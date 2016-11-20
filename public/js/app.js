@@ -197,6 +197,13 @@
       });
     };
 
+    var getUrlParameter = function(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
     var audio = document.querySelector('.ctrgroup__player__audio')
       , form = document.querySelector('.ctrgroup__player__form')
       , toggleButton = document.querySelector('.ctrgroup__togglebtn')
@@ -231,5 +238,11 @@
     audio.addEventListener("ended", function(){
       visualPanel.style.display = 'none';
     });
+
+    if (getUrlParameter('track')) {
+      var track = getUrlParameter('track');
+      document.querySelector('.ctrgroup__player__form__input').value = track;
+      play(track);
+    }
 
   }());
