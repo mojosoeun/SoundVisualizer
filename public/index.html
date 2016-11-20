@@ -8,22 +8,88 @@
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
   </head>
   <body>
-    <div id="drawPanel"></div>
-    <div id="controlPanel" class="hidden">
-        <div id="tab"><a href="#" id="toggleButton"><i class="icon-menu"></i></a></div>
-        <div id="playerControls">
-            <form id="form">
-                <input id="input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)">
-                <button type="submit" id="submit"><i class="icon-play"></i></button><br>
+    <div class="visualPanel"></div>
+    <div class="ctrgroup ctrgroup--hidden">
+        <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><i class="icon-menu"></i></a></div>
+        <div class="ctrgroup__player">
+            <form class="ctrgroup__player__form">
+                <input class="ctrgroup__player__form__input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)"/>
+                <button class="ctrgroup__player__form__submit"><i class="icon-play"></i></button><br/>
             </form>
-            <audio id="audio" controls="" autoplay="" preload autobuffer></audio>
+            <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
         </div>
     </div>
-    <p id="title" class="title"> Sound Visualizer </p>
-    <div class="LPPanel" id="LPPanel"></div>
+    <section class="defaulPanel">
+      <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
+      <canvas class="defaulPanel__canvas"></canvas>
+    </section>
 
-    <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
     <script src="config.js"></script>
-    <script src="js/app.js"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
+    <script src="js/dom_helper.js"></script>
+    <script src="js/sona.js"></script>
+    <script>
+
+    (function(global, $, sona){
+      'use strict';
+
+      var form = $.query('.ctrgroup__player__form')
+          , audio = $.query('.ctrgroup__player__audio')
+          , toggleButton = $.query('.ctrgroup__togglebtn')
+          , visualPanel = $.query('.visualPanel')
+          , defaulPanel = $.query('.defaulPanel')
+          , soundcloud = sona.soundcloud;
+
+      var getUrlParameter = function(name) {
+          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+          var results = regex.exec(location.search);
+          return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      };
+
+      var play = function(track){
+        soundcloud.init(track, function(){
+          soundcloud.play(audio);
+        }, function(err){
+          console.error(err)
+          $.cLog("Incorrect Request");
+        })
+      }
+
+      if (getUrlParameter('track')) {
+        var track = getUrlParameter('track');
+        $.query('.ctrgroup__player__form__input').value = track;
+        play(track);
+      }
+
+      var ControlGroup = function() {
+        var ctrGroup = $.query('.ctrgroup');
+        this.toggle = function() {
+          if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+            ctrGroup.className = ctrGroup.className.split(' ')[0];
+          } else {
+            ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
+          }
+        };
+      };
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var trackUrl = $.query('.ctrgroup__player__form__input').value;
+        play(trackUrl);
+      });
+
+      toggleButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        ctrGroup.toggle();
+      });
+
+      audio.addEventListener("ended", function(){
+        visualPanel.style.display = 'none';
+      });
+
+    })(this, this.dom_helper, this.sona);
+
+    </script>
   </body>
 </html>
