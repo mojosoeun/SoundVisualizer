@@ -84,6 +84,15 @@ this.dom_helper = (function(global){
     return queryAll(selector, context)[0];
   }
 
+  /** @function controlGroup() */
+  function toggle(ctrGroup) {
+   if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+      ctrGroup.className = ctrGroup.className.split(' ')[0];
+    } else {
+      ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
+    }
+  }
+
   return {
     'info': {
       'version': version,
@@ -92,6 +101,7 @@ this.dom_helper = (function(global){
     'util': {
       'cLog': cLog,
       'validate': validate,
+      'toggle' : toggle
     },
     'query'    : query
   };

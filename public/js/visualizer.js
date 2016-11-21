@@ -9,8 +9,7 @@ this.visualizer = (function(global) {
     , bgCanvas
     , bgCtx
     , albumImg
-    , canvas
-    , audioSource
+    , analyser
     , gradientColor = {
         0: ['#89FFFD', '#EF32D9'],
         1: ['#00DBDE', '#FC00FF'],
@@ -19,6 +18,7 @@ this.visualizer = (function(global) {
       };
 
   function drawBg(){
+
     bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
     bgCtx.beginPath();
     bgCtx.rect(0, 0, bgCanvas.width, bgCanvas.height);
@@ -49,18 +49,27 @@ this.visualizer = (function(global) {
     }
   };
 
-  function draw() {
+  function draw(analyser) {
+
+    //########################### !!!!!
+
+    var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    //########################### !!!!!
+
+
     var barHeight
       , barData
-      , barWidth = (fgCanvas.width / audioSource.bufferLength) * 2.5
+      , barWidth = (fgCanvas.width / bufferLength) * 2.5
       , x = 0;
-
-    audioSource.analyser.getByteFrequencyData(audioSource.dataArray);
 
     fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
 
-    for (var i = 0, l = audioSource.bufferLength; i < l; i++) {
-      barData = audioSource.dataArray[i];
+    for (var i = 0, l = bufferLength; i < l; i++) {
+      barData = dataArray[i];
       barHeight = barData * 3;
 
       fgCtx.fillStyle = 'rgba(' + (barData+200) + ', '+ (barData+200)+',' + (barData+200) + ', 0.4'+')';
@@ -78,18 +87,19 @@ this.visualizer = (function(global) {
     requestAnimationFrame(draw);
   };
 
-  function drawAlbumImg {
-    albumImg.setAttribute('src', soundCloud.artwork_url);
-
+  function drawAlbumImg() {
+    // albumImg.setAttribute('src', soundCloud.artwork_url);
   };
-  function clearBackEffect {
+  function clearBackEffect() {
     clearInterval(drawBg);
   };
 
   function init(option){
 
-    audioSource = option.audioSource;
-    canvas = document.querySelector(option.visualPanel);
+    analyser = option.analyser;
+    canvas = option.canvas;
+
+    console.log(analyser);
 
     fgCanvas = document.createElement('canvas');
     fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
@@ -104,10 +114,10 @@ this.visualizer = (function(global) {
     bgCtx = bgCanvas.getContext("2d");
     canvas.appendChild(bgCanvas);
 
-    this.resizeCanvas();
+    resizeCanvas();
     draw();
     setInterval(drawBg, 1000 / 2);
-    window.addEventListener('resize', this.resizeCanvas, false);
+    window.addEventListener('resize', resizeCanvas, false);
   }
 
   return {

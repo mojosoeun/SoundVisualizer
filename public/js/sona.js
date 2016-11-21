@@ -1,11 +1,19 @@
 /*! sona.js © sonasoeun.me, 2016 */
-this.sona = (function(global) {
+this.sona = (function(global, $) {
   'use strict';
 
-  var version = '1.0.0';
-  var author  = 'sona';
+  var version = '1.0.0'
+      , author  = 'sona'
+      , client_id = SOUNDCLOUD_API_KEY
+      , audio = $.query('.ctrgroup__player__audio')
+      , audioCtx = new (window.AudioContext || window.webkitAudioContext)
+      , source = audioCtx.createMediaElementSource(audio)
+      , analyser = audioCtx.createAnalyser();
 
-  var client_id = SOUNDCLOUD_API_KEY;
+  analyser.fftSize = 256;
+  audio.crossOrigin = "anonymous";
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
 
   SC.initialize({
     client_id: client_id
@@ -25,20 +33,6 @@ this.sona = (function(global) {
   function play(audio) {
     audio.setAttribute('src', global.streamUrl);
     audio.play();
-    makeAudioSource(audio);
-  }
-
-  function makeAudioSource(audio) {
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)
-      , source = audioCtx.createMediaElementSource(audio)
-      , analyser = audioCtx.createAnalyser();
-
-    analyser.fftSize = 256;
-    audio.crossOrigin = "anonymous";
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    var bufferLength = analyser.frequencyBinCount;
-    var dataArray = new Uint8Array(bufferLength);
   }
 
   return {
@@ -52,4 +46,4 @@ this.sona = (function(global) {
     }
   };
 
-})(this);
+})(this, this.dom_helper);

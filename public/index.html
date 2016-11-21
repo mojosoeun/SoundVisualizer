@@ -28,31 +28,39 @@
     <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
     <script src="js/dom_helper.js"></script>
     <script src="js/sona.js"></script>
+    <script src="js/visualizer.js"></script>
     <script>
 
-    (function(global, $, sona){
+    (function(global, $, sona, v){
       'use strict';
 
       var form = $.query('.ctrgroup__player__form')
-          , audio = $.query('.ctrgroup__player__audio')
           , toggleButton = $.query('.ctrgroup__togglebtn')
           , visualPanel = $.query('.visualPanel')
-          , defaulPanel = $.query('.defaulPanel')
+          , defaulPanel = $.query('.defaultPanel')
+          , ctrGroup = $.query('.ctrgroup')
+          , util = $.util
           , soundcloud = sona.soundcloud;
 
-      var getUrlParameter = function(name) {
+      v.init({
+        'canvas': visualPanel
+      });
+
+      // util.toogle(ctrGroup);
+
+      function getUrlParameter(name) {
           name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
           var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
           var results = regex.exec(location.search);
           return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
       };
 
-      var play = function(track){
+      function play(track){
         soundcloud.init(track, function(){
-          soundcloud.play(audio);
+          soundcloud.play();
         }, function(err){
           console.error(err)
-          $.cLog("Incorrect Request");
+          util.cLog("Incorrect Request");
         })
       }
 
@@ -62,33 +70,22 @@
         play(track);
       }
 
-      var ControlGroup = function() {
-        var ctrGroup = $.query('.ctrgroup');
-        this.toggle = function() {
-          if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
-            ctrGroup.className = ctrGroup.className.split(' ')[0];
-          } else {
-            ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
-          }
-        };
-      };
-
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var trackUrl = $.query('.ctrgroup__player__form__input').value;
         play(trackUrl);
       });
 
-      toggleButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        ctrGroup.toggle();
-      });
+      // toggleButton.addEventListener('click', function(e) {
+      //   e.preventDefault();
+      //   ctrGroup.toggle();
+      // });
 
-      audio.addEventListener("ended", function(){
-        visualPanel.style.display = 'none';
-      });
+      // audio.addEventListener("ended", function(){
+      //   visualPanel.style.display = 'none';
+      // });
 
-    })(this, this.dom_helper, this.sona);
+    })(this, this.dom_helper, this.sona, this.visualizer);
 
     </script>
   </body>
