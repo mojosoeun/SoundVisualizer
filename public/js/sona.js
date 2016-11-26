@@ -58,6 +58,7 @@ this.sona = (function(global) {
     var bufferLength = analyser.frequencyBinCount;
     var dataArray = new Uint8Array(bufferLength);
     var barWidth = (fgCanvas.width / bufferLength) * 2.5;
+    analyser.getByteFrequencyData(dataArray);
 
     fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
 
@@ -89,6 +90,7 @@ this.sona = (function(global) {
 
   function init(option){
 
+    console.log(option);
     analyser = option.analyser;
     canvas = option.canvas;
 

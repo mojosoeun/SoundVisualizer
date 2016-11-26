@@ -1,5 +1,6 @@
 this.dom_helper = (function(global){
   'use strict';
+
   var version = '1.0.0';
   var author  = 'sona';
 
@@ -84,14 +85,18 @@ this.dom_helper = (function(global){
     return queryAll(selector, context)[0];
   }
 
+  function hasClass(selector) {
+    return true;
+  }
+
   /** @function controlGroup() */
-  // function toggle(ctrGroup) {
-  //  if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
-  //     ctrGroup.className = ctrGroup.className.split(' ')[0];
-  //   } else {
-  //     ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
-  //   }
-  // }
+  function onoffmenu(ctrGroup) {
+   if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+      ctrGroup.className = ctrGroup.className.split(' ')[0];
+    } else {
+      ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
+    }
+  }
 
   return {
     'info': {
@@ -99,7 +104,8 @@ this.dom_helper = (function(global){
       'author': author
     },
     'util': {
-      'cLog': cLog
+      'cLog': cLog,
+      'onoffmenu' : onoffmenu
     },
     'query'    : query,
   };

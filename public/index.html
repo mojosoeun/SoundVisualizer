@@ -19,7 +19,7 @@
             <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
         </div>
     </div>
-    <section class="defaulPanel">
+    <section class="defaultPanel">
       <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
       <canvas class="defaulPanel__canvas"></canvas>
     </section>
@@ -50,6 +50,10 @@
         'canvas': visualPanel
       });
 
+      util.onoffmenu(ctrGroup);
+      visualPanel.style.display = 'none';
+
+
       function getUrlParameter(name) {
           name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
           var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -58,15 +62,15 @@
       }
 
       function play(track){
+
         audio.soundcloud.init(track, function(){
+          visualPanel.style.display = 'block';
           audio.soundcloud.play();
         }, function(err){
           console.error(err)
           util.cLog("Incorrect Request");
         })
       }
-
-      play('https://soundcloud.com/swindail/turbine-blue-swindail-remix');
 
       if (getUrlParameter('track')) {
         var trackUrl = getUrlParameter('track');
@@ -76,17 +80,18 @@
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
+        defaultPanel.style.display = 'none';
         var trackUrl = trackInputer.value;
         play(trackUrl);
       });
 
       toggleButton.addEventListener('click', function(e) {
         e.preventDefault();
-        ctrGroup.toggle();
+        util.onoffmenu(ctrGroup);
       });
 
       // audio.addEventListener("ended", function(){
-      //   visualPanel.style.display = 'none';
+      //   // visualPanel.style.display = 'none';
       // });
 
     })(this, this.dom_helper);
