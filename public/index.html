@@ -28,64 +28,68 @@
     <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
     <script src="js/dom_helper.js"></script>
     <script src="js/sona.js"></script>
-    <script src="js/visualizer.js"></script>
+    <script src="js/audio_helper.js"></script>
     <script>
 
-    (function(global, $, sona, v){
+    (function(global, $){
       'use strict';
 
       var form = $.query('.ctrgroup__player__form')
           , toggleButton = $.query('.ctrgroup__togglebtn')
+          , trackInputer =$.query('.ctrgroup__player__form__input')
           , visualPanel = $.query('.visualPanel')
-          , defaulPanel = $.query('.defaultPanel')
+          , defaultPanel = $.query('.defaultPanel')
           , ctrGroup = $.query('.ctrgroup')
           , util = $.util
-          , soundcloud = sona.soundcloud;
+          , sona = global.sona
+          , audio = global.audio_helper
+          , analyser = audio.analyser;
 
-      v.init({
+      sona.init({
+        'analyser' : analyser,
         'canvas': visualPanel
       });
-
-      // util.toogle(ctrGroup);
 
       function getUrlParameter(name) {
           name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
           var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
           var results = regex.exec(location.search);
           return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-      };
+      }
 
       function play(track){
-        soundcloud.init(track, function(){
-          soundcloud.play();
+        audio.soundcloud.init(track, function(){
+          audio.soundcloud.play();
         }, function(err){
           console.error(err)
           util.cLog("Incorrect Request");
         })
       }
 
+      play('https://soundcloud.com/swindail/turbine-blue-swindail-remix');
+
       if (getUrlParameter('track')) {
-        var track = getUrlParameter('track');
-        $.query('.ctrgroup__player__form__input').value = track;
-        play(track);
+        var trackUrl = getUrlParameter('track');
+        trackInputer.value = track;
+        play(trackUrl);
       }
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        var trackUrl = $.query('.ctrgroup__player__form__input').value;
+        var trackUrl = trackInputer.value;
         play(trackUrl);
       });
 
-      // toggleButton.addEventListener('click', function(e) {
-      //   e.preventDefault();
-      //   ctrGroup.toggle();
-      // });
+      toggleButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        ctrGroup.toggle();
+      });
 
       // audio.addEventListener("ended", function(){
       //   visualPanel.style.display = 'none';
       // });
 
-    })(this, this.dom_helper, this.sona, this.visualizer);
+    })(this, this.dom_helper);
 
     </script>
   </body>

@@ -85,13 +85,13 @@ this.dom_helper = (function(global){
   }
 
   /** @function controlGroup() */
-  function toggle(ctrGroup) {
-   if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
-      ctrGroup.className = ctrGroup.className.split(' ')[0];
-    } else {
-      ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
-    }
-  }
+  // function toggle(ctrGroup) {
+  //  if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+  //     ctrGroup.className = ctrGroup.className.split(' ')[0];
+  //   } else {
+  //     ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
+  //   }
+  // }
 
   return {
     'info': {
@@ -99,10 +99,8 @@ this.dom_helper = (function(global){
       'author': author
     },
     'util': {
-      'cLog': cLog,
-      'validate': validate,
-      'toggle' : toggle
+      'cLog': cLog
     },
-    'query'    : query
+    'query'    : query,
   };
 })(this);
