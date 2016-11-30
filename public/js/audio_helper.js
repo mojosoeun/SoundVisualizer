@@ -1,50 +1,54 @@
 /*! audio_helper.js © sonasoeun.me, 2016 */
-this.audio_helper = (function(global, $) {
+var audio_helper = (function(global) {
   'use strict';
 
-  var version = '1.0.0'
-      , author  = 'sona'
-      , client_id = SOUNDCLOUD_API_KEY
-      , audio = $.query('.ctrgroup__player__audio')
-      , audioCtx = new (window.AudioContext || window.webkitAudioContext)
-      , source = audioCtx.createMediaElementSource(audio)
-      , analyser = audioCtx.createAnalyser();
+  var client_id = SOUNDCLOUD_API_KEY;
 
-  analyser.fftSize = 256;
-  audio.crossOrigin = "anonymous";
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
+  function audio_helper(audio) {
+    if ( !(this instanceof audio_helper) ) {
+      SC.initialize({
+        client_id: client_id
+      });
 
-  SC.initialize({
-    client_id: client_id
-  });
-
-  function init(trackUrl, successCallback, errorCallback){
-    SC.resolve(trackUrl)
-      .then(function(data){
-        global.streamUrl = data.stream_url + '?client_id=' + client_id;
-        global.artworkUrl = data.artwork_url;
-        successCallback();
-    }).catch(function(error){
-        errorCallback(error);
-    });
-  }
-
-  function play() {
-    audio.setAttribute('src', global.streamUrl);
-    audio.play();
-  }
-
-  return {
-    'info': {
-      'version': version,
-      'author': author
-    },
-    'analyser': analyser,
-    'soundcloud' : {
-      'init' :  init,
-      'play': play
+      return new audio_helper(audio);
     }
-  };
+    this._init.apply(this, arguments);
+  }
 
-})(this, this.dom_helper);
+
+  audio_helper.fn = audio_helper.prototype = {
+    'constructor': audio_helper,
+    'author' : 'sona',
+    'version': '1.0.0',
+    '_init' : function(audio) {
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)
+        , source = audioCtx.createMediaElementSource(audio)
+
+      this.audio = audio;
+      this.analyser = audioCtx.createAnalyser();
+
+      this.analyser.fftSize = 256;
+      this.analyser.connect(audioCtx.destination);
+
+      this.audio.crossOrigin = "anonymous";
+      source.connect(this.analyser);
+    },
+    'search' : function(trackUrl, successCallback, errorCallback){
+      SC.resolve(trackUrl)
+        .then(function(data){
+          var streamUrl = data.stream_url + '?client_id=' + client_id;
+          var artworkUrl = data.artwork_url;
+          successCallback.call(this,streamUrl,artworkUrl);
+      }).catch(function(error){
+          errorCallback(error);
+      });
+    },
+    'play': function(streamUrl){
+      this.audio.setAttribute('src', streamUrl);
+      this.audio.play();
+    }
+  }
+
+  return audio_helper;
+
+})(this);

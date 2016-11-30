@@ -31,7 +31,7 @@
     <script src="js/audio_helper.js"></script>
     <script>
 
-    (function(global, $){
+    (function(global, $, _){
       'use strict';
 
       var form = $.query('.ctrgroup__player__form')
@@ -40,13 +40,13 @@
           , visualPanel = $.query('.visualPanel')
           , defaultPanel = $.query('.defaultPanel')
           , ctrGroup = $.query('.ctrgroup')
+          , audio = $.query('.ctrgroup__player__audio')
           , util = $.util
           , sona = global.sona
-          , audio = global.audio_helper
-          , analyser = audio.analyser;
+          , soundcloud = _(audio);
 
       sona.init({
-        'analyser' : analyser,
+        'analyser' : soundcloud.analyser,
         'canvas': visualPanel
       });
 
@@ -62,10 +62,11 @@
       }
 
       function play(track){
-
-        audio.soundcloud.init(track, function(){
+        soundcloud.search(track, function(streamUrl, artworkUrl){
           visualPanel.style.display = 'block';
-          audio.soundcloud.play();
+          soundcloud.play(streamUrl);
+          sona.drawAlbumImg(artworkUrl)
+          setTimeout(util.onoffmenu(ctrGroup), 3000); // auto-hide the control panel
         }, function(err){
           console.error(err)
           util.cLog("Incorrect Request");
@@ -90,11 +91,11 @@
         util.onoffmenu(ctrGroup);
       });
 
-      // audio.addEventListener("ended", function(){
-      //   // visualPanel.style.display = 'none';
-      // });
+      audio.addEventListener("ended", function(){
+        visualPanel.style.display = 'none';
+      });
 
-    })(this, this.dom_helper);
+    })(this, this.dom_helper, audio_helper);
 
     </script>
   </body>

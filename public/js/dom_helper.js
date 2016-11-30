@@ -85,8 +85,14 @@ this.dom_helper = (function(global){
     return queryAll(selector, context)[0];
   }
 
-  function hasClass(selector) {
-    return true;
+  // TODO
+  function hasClass(target, className) {
+    validate( !isString(className), 'arguments must be string type' );
+  }
+
+  // TODO 
+  function addClass(target, className) {
+    validate( !isString(className), 'arguments must be string type' );
   }
 
   /** @function controlGroup() */

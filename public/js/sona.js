@@ -81,8 +81,8 @@ this.sona = (function(global) {
     requestAnimationFrame(draw);
   };
 
-  function drawAlbumImg() {
-    // albumImg.setAttribute('src', soundCloud.artwork_url);
+  function drawAlbumImg(artworkUrl) {
+    albumImg.setAttribute('src', artworkUrl);
   };
   function clearBackEffect() {
     clearInterval(drawBg);
@@ -90,11 +90,11 @@ this.sona = (function(global) {
 
   function init(option){
 
-    console.log(option);
     analyser = option.analyser;
     canvas = option.canvas;
 
     fgCanvas = document.createElement('canvas');
+    //style 빼기
     fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
     fgCtx = fgCanvas.getContext("2d");
     canvas.appendChild(fgCanvas);
@@ -118,7 +118,8 @@ this.sona = (function(global) {
       'version': version,
       'author': author
     },
-    'init': init
+    'init': init,
+    'drawAlbumImg' : drawAlbumImg
   }
 
 })(this);
