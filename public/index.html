@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
   </head>
   <body>
+    <div class="layer" style="display: none">
+      <h1 class="layer__title"> This browser is not supported </h1>
+    </div>
     <div class="visualPanel"></div>
     <div class="ctrgroup ctrgroup--hidden">
         <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><i class="icon-menu"></i></a></div>
@@ -33,6 +36,12 @@
 
     (function(global, $, _){
       'use strict';
+
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+      if(isIE) {
+        $.query('.layer').style.display = 'table';
+      }
 
       var form = $.query('.ctrgroup__player__form')
           , toggleButton = $.query('.ctrgroup__togglebtn')
