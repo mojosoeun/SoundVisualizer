@@ -1,23 +1,23 @@
-/*! audio_helper.js © sonasoeun.me, 2016 */
-var audio_helper = (function(global) {
+/*! sound.js © sonasoeun.me, 2016 */
+var sound = (function(soundcloud) {
   'use strict';
 
   var client_id = SOUNDCLOUD_API_KEY;
 
-  function audio_helper(audio) {
-    if ( !(this instanceof audio_helper) ) {
-      SC.initialize({
+  function sound(audio) {
+    if ( !(this instanceof sound) ) {
+      soundcloud.initialize({
         client_id: client_id
       });
 
-      return new audio_helper(audio);
+      return new sound(audio);
     }
     this._init.apply(this, arguments);
   }
 
 
-  audio_helper.fn = audio_helper.prototype = {
-    'constructor': audio_helper,
+  sound.fn = sound.prototype = {
+    'constructor': sound,
     'author' : 'sona',
     'version': '1.0.0',
     '_init' : function(audio) {
@@ -34,7 +34,7 @@ var audio_helper = (function(global) {
       source.connect(this.analyser);
     },
     'search' : function(trackUrl, successCallback, errorCallback){
-      SC.resolve(trackUrl)
+      soundcloud.resolve(trackUrl)
         .then(function(data){
           var streamUrl = data.stream_url + '?client_id=' + client_id;
           var artworkUrl = data.artwork_url;
@@ -49,6 +49,6 @@ var audio_helper = (function(global) {
     }
   }
 
-  return audio_helper;
+  return sound;
 
-})(this);
+})(SC);

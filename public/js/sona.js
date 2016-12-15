@@ -1,5 +1,5 @@
 /*! sona.js © sonasoeun.me, 2016 */
-this.sona = (function(global) {
+var sona = (function() {
   'use strict';
 
   var version = '1.0.0';
@@ -122,4 +122,4 @@ this.sona = (function(global) {
     'drawAlbumImg' : drawAlbumImg
   }
 
-})(this);
+})();
