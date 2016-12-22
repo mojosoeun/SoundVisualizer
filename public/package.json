@@ -1,0 +1,28 @@
+{
+  "name": "sound-visualizer",
+  "version": "1.0.0",
+  "description": "sound visualizer",
+  "main": "app.js",
+  "scripts": {
+    "test": "sound"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojosoeun/SoundVisualizer.git"
+  },
+  "author": "sona",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mojosoeun/SoundVisualizer/issues"
+  },
+  "homepage": "https://github.com/mojosoeun/SoundVisualizer#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "jshint": "^2.9.4"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

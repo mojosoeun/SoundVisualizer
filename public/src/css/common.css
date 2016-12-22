@@ -108,6 +108,10 @@ html, body {
   width: 95%;
 }
 
+.ctrgroup__player__audio::-webkit-media-controls-panel {
+  background-color: #ffffff;
+}
+
 @keyframes turntable {
   0% {transform: rotate(0deg)}
   100% {transform: rotate(360deg)}
@@ -128,8 +132,8 @@ html, body {
   margin: auto;
   border: 2px outset rgba(255,255, 255, 0.4);
   border-radius: 50%;
-  height: 40vmax;
-  width: 40vmax;
+  height: 20vmax;
+  width: 20vmax;
   animation-name: turntable;
   animation-duration: 3.6s;
   animation-timing-function: linear;
