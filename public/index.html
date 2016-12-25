@@ -1,109 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Sound Visualizer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sound Visualizer</title>
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Enjoy music with eyes!" />
+
+    <!-- for Google+ -->
+    <meta itemprop="name" content="sound-visualizer">
+    <meta itemprop="description" content="Enjoy music with eyes!">
+    <meta itemprop="image" content="https://soundvisualizer-fff4b.firebaseapp.com/sound-visualizer.png">
+
+    <!-- for Facebook -->
+    <meta property="og:title" content="sound-visualizer"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="https://soundvisualizer-fff4b.firebaseapp.com/"/>
+    <meta property="og:description" content="Enjoy music with eyes!"/>
+    <meta property="og:image" content="https://soundvisualizer-fff4b.firebaseapp.com/sound-visualizer.png"/>
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="sound-visualizer" />
+    <meta name="twitter:title" content=”sound-visualizer” />
+    <meta name="twitter:description" content="sound-visualizer" />
+    <meta name="twitter:url" content="https://soundvisualizer-fff4b.firebaseapp.com/" />
+    <meta name="twitter:image" content="https://soundvisualizer-fff4b.firebaseapp.com/sound-visualizer.png" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="images/manifest.json">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#ffffff">
+    <link rel="stylesheet" type="text/css" href="sona.css">
   </head>
   <body>
     <div class="layer" style="display: none">
       <h1 class="layer__title"> This browser is not supported </h1>
     </div>
+    <div class="warnPanel" style="display: none">
+      <p class="warnPanel__p">incorrect url</p>
+    </div>
     <div class="visualPanel"></div>
     <div class="ctrgroup ctrgroup--hidden">
-        <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><i class="icon-menu"></i></a></div>
+        <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><span class="icon-bars"></span></a></div>
         <div class="ctrgroup__player">
             <form class="ctrgroup__player__form">
                 <input class="ctrgroup__player__form__input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)"/>
-                <button class="ctrgroup__player__form__submit"><i class="icon-play"></i></button><br/>
+                <button class="ctrgroup__player__form__submit"><i class="icon-play-circle-o" aria-hidden="true"></i></button><br/>
             </form>
             <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
         </div>
+    </div>
+    <div class="infogroup">
+      <a class="infogroup__a" href="https://github.com/mojosoeun/SoundVisualizer" target="_blank"><i class="icon-github" aria-hidden="true"></i> Github</a>
+      <a class="infogroup__a" href="https://medium.com/@soeunlee" target="_blank"><i class="icon-medium" aria-hidden="true"></i> Medium</a>
     </div>
     <section class="defaultPanel">
       <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
       <canvas class="defaulPanel__canvas"></canvas>
     </section>
-
-    <script src="config.js"></script>
     <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
-    <script src="js/dom.js"></script>
-    <script src="js/sona.js"></script>
-    <script src="js/sound.js"></script>
-    <script>
-
-    (function($, sound, sona){
-      'use strict';
-
-      var isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-      if(isIE) {
-        $.query('.layer').style.display = 'table';
-      }
-
-      var form = $.query('.ctrgroup__player__form')
-          , toggleButton = $.query('.ctrgroup__togglebtn')
-          , trackInputer = $.query('.ctrgroup__player__form__input')
-          , visualPanel = $.query('.visualPanel')
-          , defaultPanel = $.query('.defaultPanel')
-          , ctrGroup = $.query('.ctrgroup')
-          , audio = $.query('.ctrgroup__player__audio')
-          , util = $.util
-          , soundcloud = sound(audio);
-
-      sona.init({
-        'analyser' : soundcloud.analyser,
-        'canvas': visualPanel
-      });
-
-      util.onoffmenu(ctrGroup);
-
-      $.hide(visualPanel);
-
-      function getUrlParameter(name) {
-          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-          var results = regex.exec(location.search);
-          return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-      }
-
-      function play(track){
-        soundcloud.search(track, function(streamUrl, artworkUrl){
-          visualPanel.style.display = 'block';
-          soundcloud.play(streamUrl);
-          sona.drawAlbumImg(artworkUrl)
-          setTimeout(util.onoffmenu(ctrGroup), 3000); // auto-hide the control panel
-        }, function(err){
-          util.cLog("Incorrect Request");
-        })
-      }
-
-      if (getUrlParameter('track')) {
-        var trackUrl = getUrlParameter('track');
-        trackInputer.value = track;
-        play(trackUrl);
-      }
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        defaultPanel.style.display = 'none';
-        var trackUrl = trackInputer.value;
-        play(trackUrl);
-      });
-
-      toggleButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        util.onoffmenu(ctrGroup);
-      });
-
-      audio.addEventListener("ended", function(){
-        $.show(visualPanel);
-      });
-
-    })(dom, sound, sona);
-
-    </script>
+    <script src="sona-min.js"></script>
   </body>
 </html>

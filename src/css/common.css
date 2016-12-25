@@ -1,0 +1,230 @@
+* { margin:0; padding:0; }
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?9nbww0');
+  src:  url('fonts/icomoon.eot?9nbww0#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?9nbww0') format('truetype'),
+    url('fonts/icomoon.woff?9nbww0') format('woff'),
+    url('fonts/icomoon.svg?9nbww0#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-play-circle-o:before {
+  content: "\e903";
+}
+.icon-bars:before {
+  content: "\e902";
+}
+.icon-medium:before {
+  content: "\e901";
+}
+.icon-github:before {
+  content: "\e900";
+}
+
+html, body {
+  width:100%;
+  height:100%;
+  background-color: #000000;
+  background: #fc00ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #fc00ff , #00dbde); /*Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #fc00ff , #00dbde); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow: hidden;
+}
+.infogroup {
+  z-index: 50;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.infogroup__a {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 10px;
+}
+
+.ctrgroup {
+  z-index: 50;
+  position: absolute;
+  bottom: 35px;
+  width: 100%;
+  color: #999;
+  max-height: 600px;
+  -webkit-transition: max-height 0.8s;
+  -moz-transition: max-height 0.8s;
+  transition: max-height 0.8s;
+  overflow: hidden;
+}
+.ctrgroup--hidden {
+  max-height: 52px;
+}
+.ctrgroup__tab {
+  padding: 10px 16px 2px 16px;
+  font-size: 32px;
+}
+.ctrgroup__togglebtn {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 7px 10px 3px 10px;
+}
+
+.ctrgroup__togglebtn, .ctrgroup__togglebtn:visited {
+  text-decoration: none;
+  color: #c6c6c6;
+}
+
+.ctrgroup__togglebtn:hover, .ctrgroup__togglebtn:active {
+  color: #fff;
+}
+
+.ctrgroup__player {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  float: left;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding-top: 10px;
+}
+.ctrgroup__player__form__input {
+  font-size: 20px;
+  padding: 8px;
+  margin-bottom: 10px;
+  margin-left: -30px;
+  width: 80%;
+  max-width: 690px;
+  color: #333;
+  border: 1px solid #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.ctrgroup__player__form__submit {
+  position: absolute;
+  color: #fff;
+  font-size: 32px;
+  padding: 5px;
+  background: none;
+  border: none;
+}
+
+.ctrgroup__player__audio {
+  width: 95%;
+}
+
+.ctrgroup__player__audio::-webkit-media-controls-panel {
+  background-color: #ffffff;
+}
+
+@keyframes turntable {
+  0% {transform: rotate(0deg)}
+  100% {transform: rotate(360deg)}
+}
+.defaultPanel {
+  text-align: center;
+  -webkit-transition: max-height 0.8s;
+  -moz-transition: max-height 0.8s;
+  transition: max-height 0.8s;
+  overflow: hidden;
+}
+
+.defaulPanel--hidden {
+  max-height: 80vmax;
+}
+
+.defaulPanel__canvas {
+  margin: auto;
+  border: 2px outset rgba(255,255, 255, 0.4);
+  border-radius: 50%;
+  height: 30vmax;
+  width: 30vmax;
+  animation-name: turntable;
+  animation-duration: 3.6s;
+  animation-timing-function: linear;
+  animation-direction: normal;
+  animation-iteration-count: infinite;
+  background: radial-gradient(closest-side,
+    rgba(255,255, 255, 0.4) 2.2%,
+    rgba(255,255, 255, 0.6) 2.2%, rgba(255,255, 255, 0.6) 32.5%,
+    rgba(255,255, 255, 0.2) 32.5%, rgba(255,255, 255, 0.2) 42.6%,
+    rgba(255,255, 255, 0.4) 42.6%, rgba(255,255, 255, 0.4) 49.7%,
+    rgba(255,255, 255, 0.2) 49.7%, rgba(255,255, 255, 0.2) 50%,
+    rgba(255,255, 255, 0.4) 50%, rgba(255,255, 255, 0.4) 59.7%,
+    rgba(255,255, 255, 0.2) 59.7%, rgba(255,255, 255, 0.2) 60%,
+    rgba(255,255, 255, 0.4) 60%, rgba(255,255, 255, 0.4) 69.7%,
+    rgba(255,255, 255, 0.2) 69.7%, rgba(255,255, 255, 0.2) 70%,
+    rgba(255,255, 255, 0.4) 70%, rgba(255,255, 255, 0.4) 79.7%,
+    rgba(255,255, 255, 0.2) 79.7%, rgba(255,255, 255, 0.2) 80%,
+    rgba(255,255, 255, 0.4) 80%, rgba(255,255, 255, 0.4) 89.7%,
+    rgba(255,255, 255, 0.2) 89.7%, rgba(255,255, 255, 0.2) 90%,
+    rgba(255,255, 255, 0.4) 90%, rgba(255,255, 255, 0.4) 96.7%,
+    rgba(255,255, 255, 0.2) 96.7%);
+}
+
+.defaulPanel__h1 {
+  font-weight: bold;
+  font-size: 4.5em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.layer {
+  position: absolute;
+  display: table;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.layer__title {
+  vertical-align: middle;
+  display: table-cell;
+  color: #ffffff;
+}
+
+.warnPanel {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  background-color: rgb(255, 255, 255, 0.8);
+  opacity: .9;
+	-webkit-transition: opacity 0.5s ease-out;  /* Saf3.2+, Chrome */
+	-moz-transition: opacity 0.5s ease-out;  /* FF4+ */
+	-ms-transition: opacity 0.5s ease-out;  /* IE10? */
+	-o-transition: opacity 0.5s ease-out;  /* Opera 10.5+ */
+	transition: opacity 0.5s ease-out;
+  z-index: 500;
+  overflow: hidden;
+}
+
+.warnPanel--hidden {
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+}
+
+.warnPanel__p {
+  color: #fff;
+  margin-bottom: 10px;
+}

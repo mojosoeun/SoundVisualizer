@@ -76,21 +76,30 @@ var dom = (function(){
     return queryAll(selector, context)[0];
   }
 
-  // TODO
   function hasClass(target, className) {
     validate( !isString(className), 'arguments must be string type' );
+    var classes = target.className.split(' ');
+    if (classes.indexOf(className) === -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  // TODO
   function addClass(target, className) {
     validate( !isString(className), 'arguments must be string type' );
+
+    if(!hasClass(target, className)) {
+      target.className = target.className + ' ' + className;
+    }
   }
 
-  function onoffmenu(ctrGroup) {
-   if (ctrGroup.className.indexOf('ctrgroup--hidden') === 9) {
+  function toggle(ctrGroup, hiddenClass) {
+
+    if (hasClass(ctrGroup, hiddenClass)) {
       ctrGroup.className = ctrGroup.className.split(' ')[0];
     } else {
-      ctrGroup.className = ctrGroup.className + ' ctrgroup--hidden';
+      addClass(ctrGroup, hiddenClass);
     }
   }
 
@@ -105,6 +114,11 @@ var dom = (function(){
     context.style.display = 'none';
   }
 
+  function isCorrectSoundCloudURL(track) {
+    var re = /https:\/\/soundcloud.com\/[0-9a-z-]+\/[0-9a-z-]+/;
+    return re.test(track);
+  }
+
   return {
     'info': {
       'version': version,
@@ -112,7 +126,8 @@ var dom = (function(){
     },
     'util': {
       'cLog': cLog,
-      'onoffmenu' : onoffmenu
+      'toggle' : toggle,
+      'isCorrectSoundCloudURL' : isCorrectSoundCloudURL
     },
     'query' : query,
     'show'  : show,
