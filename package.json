@@ -1,28 +1,29 @@
 {
-  "name": "sound-visualizer",
+  "name": "sound-visuzlizer",
   "version": "1.0.0",
-  "description": "sound visualizer",
-  "main": "app.js",
+  "description": "Enjoy music with eyes!",
   "scripts": {
-    "test": "sound"
+    "test": "mocha test/*.js",
+    "start": "firebase serve"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mojosoeun/SoundVisualizer.git"
   },
-  "author": "sona",
+  "author": "sona <mojosoeun@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mojosoeun/SoundVisualizer/issues"
   },
-  "homepage": "https://github.com/mojosoeun/SoundVisualizer#readme",
-  "devDependencies": {
+  "homepage": "https://sonasoeun.me",
+  "dependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
+    "gulp-minify": "0.0.14",
+    "gulp-uglifyjs": "^0.6.2"
+  },
+  "devDependencies": {
     "gulp-jshint": "^2.0.4",
     "jshint": "^2.9.4"
-  },
-  "dependencies": {
-    "express": "^4.14.0"
   }
 }

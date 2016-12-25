@@ -12,6 +12,7 @@ var sona = (function() {
       albumImg,
       analyser,
       canvas,
+      bgIntervalId,
       gradientColor = {
         0: ['#32e2e4', '#fc4cff'],
         1: ['#00DBDE', '#FC00FF']
@@ -83,7 +84,7 @@ var sona = (function() {
     albumImg.setAttribute('src', artworkUrl);
   }
   function clearBackEffect() {
-    clearInterval(drawBg);
+    clearInterval(bgIntervalId);
   }
 
   function init(option){
@@ -107,7 +108,7 @@ var sona = (function() {
 
     resizeCanvas();
     draw();
-    setInterval(drawBg, 1000 / 2);
+    bgIntervalId = setInterval(drawBg, 1000 / 2);
     window.addEventListener('resize', resizeCanvas, false);
   }
 

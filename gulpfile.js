@@ -9,14 +9,14 @@ gulp.task('scripts', function() {
     .pipe(concat('sona.js'))
     .pipe(uglify())
     .pipe(minify())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('css', function() {
   return gulp.src('./src/css/*.css')
     .pipe(concat('sona.css'))
     .pipe(minify())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('lint', function() {

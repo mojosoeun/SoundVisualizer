@@ -13,6 +13,7 @@
       trackInputer = $.query('.ctrgroup__player__form__input'),
       visualPanel = $.query('.visualPanel'),
       defaultPanel = $.query('.defaultPanel'),
+      warnPanel = $.query('.warnPanel'),
       ctrGroup = $.query('.ctrgroup'),
       audio = $.query('.ctrgroup__player__audio'),
       util = $.util,
@@ -23,7 +24,7 @@
     'canvas': visualPanel
   });
 
-  util.onoffmenu(ctrGroup);
+  util.toggle(ctrGroup, 'ctrgroup--hidden');
 
   $.hide(visualPanel);
 
@@ -43,25 +44,35 @@
   function play(track){
     soundcloud.search(track, function(streamUrl, artworkUrl){
       $.show(visualPanel);
+      util.toggle(warnPanel, 'warnPanel--hidden');
       soundcloud.play(streamUrl);
       sona.drawAlbumImg(artworkUrl);
-      setTimeout(util.onoffmenu(ctrGroup), 3000); // auto-hide the control panel
+      setTimeout(util.toggle(ctrGroup, 'ctrgroup--hidden'), 3000); // auto-hide the control panel
     }, function(err){
-      util.cLog(err);
+      if(err.status === 403){
+        $.query('.warnPanel__p').innerHTML = 'This song is not supported';
+      } else {
+        $.query('.warnPanel__p').innerHTML = err;
+      }
+      $.show(warnPanel);
     });
   }
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     $.hide(defaultPanel);
-    window.location.href = window.location.origin + '?track=' + trackInputer.value;
-    console.log(window.location.href);
-    play(trackInputer.value);
+    console.log("##############33", util.isCorrectSoundCloudURL(trackInputer.value))
+    if(util.isCorrectSoundCloudURL(trackInputer.value)) {
+      play(trackInputer.value);
+    } else {
+      $.query('.warnPanel__p').innerHTML = 'invalid soundcloud url';
+      $.show(warnPanel);
+    }
   });
 
   toggleButton.addEventListener('click', function(e) {
     e.preventDefault();
-    util.onoffmenu(ctrGroup);
+    util.toggle(ctrGroup, 'ctrgroup--hidden');
   });
 
   audio.addEventListener("ended", function(){
