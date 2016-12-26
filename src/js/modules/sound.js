@@ -2,7 +2,7 @@
 var sound = (function(soundcloud) {
   'use strict';
 
-  var client_id = SOUNDCLOUD_CLIENT_ID;
+  var client_id = config.soundcloud_client_id;
 
   function sound(audio) {
     if ( !(this instanceof sound) ) {
@@ -17,8 +17,8 @@ var sound = (function(soundcloud) {
 
   sound.fn = sound.prototype = {
     'constructor': sound,
-    'author' : 'sona',
-    'version': '1.0.0',
+    'author' : config.author,
+    'version': config.version,
     '_init' : function(audio) {
       var audioCtx = new (window.AudioContext || window.webkitAudioContext),
           source = audioCtx.createMediaElementSource(audio);

@@ -1,12 +1,6 @@
 (function($, sound, sona){
   'use strict';
 
-  var isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-  if(isIE) {
-    $.query('.layer').style.display = 'table';
-  }
-
   var param = 'track',
       form = $.query('.ctrgroup__player__form'),
       toggleButton = $.query('.ctrgroup__togglebtn'),
@@ -18,6 +12,13 @@
       audio = $.query('.ctrgroup__player__audio'),
       util = $.util,
       soundcloud = sound(audio);
+
+  var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+  if(isIE) {
+    $.hide(defaultPanel);
+    $.query('.layer').style.display = 'table';
+  }
 
   sona.init({
     'analyser' : soundcloud.analyser,
@@ -44,7 +45,7 @@
   function play(track){
     soundcloud.search(track, function(streamUrl, artworkUrl){
       $.show(visualPanel);
-      util.toggle(warnPanel, 'warnPanel--hidden');
+      $.hide(warnPanel);
       soundcloud.play(streamUrl);
       sona.drawAlbumImg(artworkUrl);
       setTimeout(util.toggle(ctrGroup, 'ctrgroup--hidden'), 3000); // auto-hide the control panel
@@ -61,7 +62,6 @@
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     $.hide(defaultPanel);
-    console.log("##############33", util.isCorrectSoundCloudURL(trackInputer.value))
     if(util.isCorrectSoundCloudURL(trackInputer.value)) {
       play(trackInputer.value);
     } else {

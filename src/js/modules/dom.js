@@ -1,48 +1,16 @@
 var dom = (function(){
   'use strict';
 
-  var version = '1.0.0';
-  var author  = 'sona';
-
-  function cLog(input, console_style) {
-    validate(!isString(input), 'You should input the string');
-
-    if ( input.indexOf('%c') > -1 ) {
-      console_style = console_style || cLog.styles;
-      console.log(input, console_style);
-    } else {
-      console.log(input);
-    }
-  }
-
-  cLog.styles = 'color: #fe4940; font-size: 1.2rem;';
-
   function isDataType(data) {
     return Object.prototype.toString.call(data).slice(8, -1).toLowerCase();
-  }
-
-  function isNumber(data) {
-    return isDataType(data) === 'number';
   }
 
   function isString(data) {
     return isDataType(data) === 'string';
   }
 
-  function isBoolean(data) {
-    return isDataType(data) === 'boolean';
-  }
-
   function isFunction(data) {
     return isDataType(data) === 'function';
-  }
-
-  function isArray(data) {
-    return isDataType(data) === 'array';
-  }
-
-  function isObject(data) {
-    return isDataType(data) === 'object';
   }
 
   function isElement(node) {
@@ -121,11 +89,10 @@ var dom = (function(){
 
   return {
     'info': {
-      'version': version,
-      'author': author
+      'author': config.author,
+      'version': config.version
     },
     'util': {
-      'cLog': cLog,
       'toggle' : toggle,
       'isCorrectSoundCloudURL' : isCorrectSoundCloudURL
     },

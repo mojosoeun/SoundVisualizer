@@ -2,9 +2,6 @@
 var sona = (function() {
   'use strict';
 
-  var version = '1.0.0';
-  var author  = 'sona';
-
   var fgCanvas,
       fgCtx,
       bgCanvas,
@@ -14,7 +11,7 @@ var sona = (function() {
       canvas,
       bgIntervalId,
       gradientColor = {
-        0: ['#32e2e4', '#fc4cff'],
+        0: ['#00c9de', '#fc19ff'],
         1: ['#00DBDE', '#FC00FF']
       };
 
@@ -35,16 +32,15 @@ var sona = (function() {
   }
 
   function resizeCanvas() {
+
     if (fgCanvas) {
 
-      fgCanvas.width = window.innerWidth;
-      fgCanvas.height = window.innerHeight;
+        fgCanvas.width = window.innerWidth,
+        fgCanvas.height = window.innerHeight;
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
 
-      bgCanvas.width = window.innerWidth;
-      bgCanvas.height = window.innerHeight;
-
-      drawBg();
-
+        drawBg();
     }
   }
 
@@ -93,13 +89,12 @@ var sona = (function() {
     canvas = option.canvas;
 
     fgCanvas = document.createElement('canvas');
-    //style 빼기
-    fgCanvas.setAttribute('style', 'position: absolute; z-index: 10');
+    fgCanvas.className = 'fgCanvas';
     fgCtx = fgCanvas.getContext("2d");
     canvas.appendChild(fgCanvas);
 
     albumImg = document.createElement('img');
-    albumImg.setAttribute('style', 'position: absolute; z-index: 20; top: 10px; right: 10px; opacity: 0.5');
+    albumImg.className = 'imgCanvas';
     canvas.appendChild(albumImg);
 
     bgCanvas = document.createElement('canvas');
@@ -108,14 +103,14 @@ var sona = (function() {
 
     resizeCanvas();
     draw();
-    bgIntervalId = setInterval(drawBg, 1000 / 2);
+    // bgIntervalId = setInterval(drawBg, 1000 / 2);
     window.addEventListener('resize', resizeCanvas, false);
   }
 
   return {
     'info': {
-      'version': version,
-      'author': author
+      'version': config.version,
+      'author': config.author
     },
     'init': init,
     'drawAlbumImg' : drawAlbumImg,
