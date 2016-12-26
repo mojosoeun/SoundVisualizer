@@ -1,3 +1,7 @@
 'use strict';
 
-var SOUNDCLOUD_CLIENT_ID = '';
+var config = {
+  author : 'sona',
+  version : '1.0.0',
+  soundcloud_client_id = ''
+}

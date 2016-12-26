@@ -3,7 +3,8 @@
   <head>
     <title>Sound Visualizer</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Enjoy music with eyes!" />
 
@@ -37,18 +38,18 @@
     <link rel="stylesheet" type="text/css" href="sona.css">
   </head>
   <body>
+    <div class="visualPanel"></div>
     <div class="layer" style="display: none">
       <h1 class="layer__title"> This browser is not supported </h1>
     </div>
     <div class="warnPanel" style="display: none">
       <p class="warnPanel__p">incorrect url</p>
     </div>
-    <div class="visualPanel"></div>
     <div class="ctrgroup ctrgroup--hidden">
         <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><span class="icon-bars"></span></a></div>
         <div class="ctrgroup__player">
             <form class="ctrgroup__player__form">
-                <input class="ctrgroup__player__form__input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)"/>
+                <input class="ctrgroup__player__form__input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)" value="https://soundcloud.com/geerttttt/lukas-graham-mama-said-its-a-hard-knock-life"/>
                 <button class="ctrgroup__player__form__submit"><i class="icon-play-circle-o" aria-hidden="true"></i></button><br/>
             </form>
             <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
@@ -62,7 +63,7 @@
       <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
       <canvas class="defaulPanel__canvas"></canvas>
     </section>
-    <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
     <script src="sona-min.js"></script>
   </body>
 </html>
