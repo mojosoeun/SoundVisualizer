@@ -4,7 +4,7 @@
   "description": "Enjoy music with eyes!",
   "scripts": {
     "test": "mocha test/*.js",
-    "start": "firebase serve"
+    "start": "./run.sh"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/mojosoeun/SoundVisualizer/issues"
   },
-  "homepage": "https://sonasoeun.me",
+  "homepage": "https://music.sonasoeun.me",
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -23,9 +23,6 @@
     "gulp-uglifyjs": "^0.6.2"
   },
   "devDependencies": {
-    "gulp-jshint": "^2.0.4",
-    "jasmine": "^2.5.2",
-    "jshint": "^2.9.4",
     "mocha": "^3.2.0"
   }
 }
