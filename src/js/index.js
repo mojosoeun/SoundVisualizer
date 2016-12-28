@@ -1,24 +1,23 @@
 (function($, sound, sona){
   'use strict';
 
+  var defaultPanel = $.query('.defaultPanel');
+
+  if(GetIEVersion() > 0 ) {
+    $.hide(defaultPanel);
+    $.query('.layer').style.display = 'table';
+  }
+
   var param = 'track',
       form = $.query('.ctrgroup__player__form'),
       toggleButton = $.query('.ctrgroup__togglebtn'),
       trackInputer = $.query('.ctrgroup__player__form__input'),
       visualPanel = $.query('.visualPanel'),
-      defaultPanel = $.query('.defaultPanel'),
       warnPanel = $.query('.warnPanel'),
       ctrGroup = $.query('.ctrgroup'),
       audio = $.query('.ctrgroup__player__audio'),
       util = $.util,
       soundcloud = sound(audio);
-
-  var isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-  if(isIE) {
-    $.hide(defaultPanel);
-    $.query('.layer').style.display = 'table';
-  }
 
   sona.init({
     'analyser' : soundcloud.analyser,
@@ -33,6 +32,18 @@
     var trackUrl = getUrlParameter(param);
     trackInputer.value = trackUrl;
     play(trackUrl);
+  }
+
+  function GetIEVersion() {
+    var sAgent = window.navigator.userAgent;
+    var Idx = sAgent.indexOf("MSIE");
+    if (Idx > 0){
+      return parseInt(sAgent.substring(Idx+ 5, sAgent.indexOf(".", Idx)));
+    } else if(!!navigator.userAgent.match(/Trident\/7\./)) {
+      return 11;
+    } else {
+      return 0;
+    }
   }
 
   function getUrlParameter(name) {
