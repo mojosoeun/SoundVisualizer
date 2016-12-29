@@ -1,11 +1,12 @@
 (function($, sound, sona){
   'use strict';
 
-  var defaultPanel = $.query('.defaultPanel');
+  var version = detectIE();
 
-  if(GetIEVersion() > 0 ) {
-    $.hide(defaultPanel);
-    $.query('.layer').style.display = 'table';
+  if (version) {
+    if(version < 12) {
+      $.query('.layer').style.display = 'table';
+    }
   }
 
   var param = 'track',
@@ -14,6 +15,7 @@
       trackInputer = $.query('.ctrgroup__player__form__input'),
       visualPanel = $.query('.visualPanel'),
       warnPanel = $.query('.warnPanel'),
+      defaultPanel = $.query('.defaultPanel'),
       ctrGroup = $.query('.ctrgroup'),
       audio = $.query('.ctrgroup__player__audio'),
       util = $.util,
@@ -34,16 +36,22 @@
     play(trackUrl);
   }
 
-  function GetIEVersion() {
-    var sAgent = window.navigator.userAgent;
-    var Idx = sAgent.indexOf("MSIE");
-    if (Idx > 0){
-      return parseInt(sAgent.substring(Idx+ 5, sAgent.indexOf(".", Idx)));
-    } else if(!!navigator.userAgent.match(/Trident\/7\./)) {
-      return 11;
-    } else {
-      return 0;
+  function detectIE() {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf('MSIE ');
+    if (msie > 0) {
+      return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
     }
+    var trident = ua.indexOf('Trident/');
+    if (trident > 0) {
+      var rv = ua.indexOf('rv:');
+      return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+    }
+    var edge = ua.indexOf('Edge/');
+    if (edge > 0) {
+      return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+    }
+    return false;
   }
 
   function getUrlParameter(name) {
@@ -100,6 +108,5 @@
       }
     }
   });
-
 
 })(dom, sound, sona);
