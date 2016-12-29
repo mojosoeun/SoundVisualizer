@@ -1,4 +1,7 @@
 # SoundVisualizer
+> Enjoy music with eyes!
+
+![](public/sound-visualizer.png)
 
 ## Browser Support
 
@@ -6,4 +9,5 @@
 |:---:|:---:|:---:|:---:|:---:|
 | 49+ ✔ | 13+ ✔ | 49+ ✔ | 41+ ✔ | 10+ ✔ |
 
-
+## Licence
+MIT
