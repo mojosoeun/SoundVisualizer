@@ -109,8 +109,8 @@ var sona = (function() {
 
   return {
     'info': {
-      'version': config.version,
-      'author': config.author
+      'version': "1.0.0",
+      'author': "sona"
     },
     'init': init,
     'drawAlbumImg' : drawAlbumImg,

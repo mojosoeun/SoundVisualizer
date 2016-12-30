@@ -89,8 +89,8 @@ var dom = (function(){
 
   return {
     'info': {
-      'author': config.author,
-      'version': config.version
+      'author': "sona",
+      'version': "1.0.0"
     },
     'util': {
       'toggle' : toggle,

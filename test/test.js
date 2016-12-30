@@ -1,8 +1,12 @@
-var assert = require('assert');
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal(-1, [1,2,3].indexOf(4));
+var expect = chai.expect;
+
+describe('dom', function() {
+  describe('isCorrectSoundCloudURL', function() {
+    it('should return false when soundcloud url is incorrect', function() {
+      expect(dom.util.isCorrectSoundCloudURL('test')).to.be.false;
+    });
+    it('should return true when soundcloud url is correct', function() {
+      expect(dom.util.isCorrectSoundCloudURL('https://soundcloud.com/swindail/turbine-blue-swindail-remix')).to.be.true;
     });
   });
 });

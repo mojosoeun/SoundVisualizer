@@ -4,7 +4,7 @@ var minify = require('gulp-minify');
 var concat = require('gulp-concat');
 
 gulp.task('scripts', function() {
-  return gulp.src(['./src/js/config.js', './src/js/modules/*.js', './src/js/index.js'])
+  return gulp.src(['./src/js/modules/*.js', './src/js/index.js'])
     .pipe(concat('sona.js'))
     .pipe(uglify())
     .pipe(minify())
