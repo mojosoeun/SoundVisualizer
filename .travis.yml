@@ -1,4 +1,3 @@
-sudo: required
 language: node_js
 node_js:
   - "6"
@@ -7,4 +6,4 @@ install:
   - npm install -g mocha-phantomjs
   - npm install
 script:
-  - mocha-phantomjs --ssl-protocol=any --ignore-ssl-errors=true --load-images=false test/index.html
+  - mocha-phantomjs --ssl-protocol=any test/index.html
