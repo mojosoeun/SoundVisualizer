@@ -1,3 +1,6 @@
+var expect = chai.expect;
+var soundcloud = sound(dom.query('.ctrgroup__player__audio'));
+
 describe('dom', function() {
   describe('isCorrectSoundCloudURL', function() {
     it('should return false when soundcloud url is incorrect', function() {
@@ -23,7 +26,6 @@ describe('dom', function() {
 });
 
 describe('sound and sona', function() {
-  var soundcloud = sound(dom.query('.ctrgroup__player__audio'));
   describe('sound_init', function() {
     it('have to exist audio analyser when init sound.js', function() {
       expect(soundcloud.analyser).to.be.exist;

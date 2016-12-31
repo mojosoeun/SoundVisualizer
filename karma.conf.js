@@ -16,7 +16,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/*.js'
+      'node_modules/mocha/mocha.js',
+      'node_modules/mocha/chai.js',
+      'https://connect.soundcloud.com/sdk/sdk-3.1.2.js',
+      'test/index.html',
+      'src/js/modules/*.js',
+      'test/*.js',
     ],
 
 

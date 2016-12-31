@@ -6,7 +6,6 @@
 </head>
 <body>
   <div id="mocha"></div>
-
   <div class="visualPanel"></div>
   <div class="layer" style="display: none">
     <h1 class="layer__title"> This browser is not supported </h1>
@@ -33,25 +32,10 @@
     <canvas class="defaulPanel__canvas"></canvas>
   </section>
 
-  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
-  <script src="../node_modules/mocha/mocha.js"></script>
-  <script src="../node_modules/chai/chai.js"></script>
-  <!-- <script src="../node_modules/es6-symbol/implement.js"></script>
-  <script src="../node_modules/weakmap/weakmap.js"></script> -->
-  <!-- <script src="audiocontext.mock.js"></script> -->
-
-  <!-- <script src="http://mohayonao.github.io/web-audio-test-api/build/web-audio-test-api.js"></script> -->
-
   <script>
     mocha.setup('bdd')
-    expect = chai.expect;
   </script>
-  <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
-  <script src="../src/js/modules/dom.js"></script>
-  <script src="../src/js/modules/sound.js"></script>
-  <script src="../src/js/modules/sona.js"></script>
-
-  <script src="test.js"></script>
+  <!-- <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script> -->
   <script>
       mocha.checkLeaks();
       mocha.globals(['dom','sound','sona']);
