@@ -41,18 +41,16 @@
   <script src="../src/js/modules/sound.js"></script>
   <script src="../src/js/modules/sona.js"></script>
 
-  <script>mocha.setup('bdd')</script>
+  <script>
+    mocha.setup('bdd')
+    expect = chai.expect;
+  </script>
   <script src="test.js"></script>
   <script>
-      if (window.mochaPhantomJS) {
-        mochaPhantomJS.globals(['dom','sound','sona']);
-        mochaPhantomJS.run();
-      } else {
-        mocha.checkLeaks();
-        mocha.globals(['dom','sound','sona']);
-        mocha.run();
-      }
-     </script>
+      mocha.checkLeaks();
+      mocha.globals(['dom','sound','sona']);
+      mocha.run();
+   </script>
    </body>
 </body>
 </html>

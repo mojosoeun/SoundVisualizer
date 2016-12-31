@@ -1,4 +1,3 @@
-var expect = chai.expect;
 var soundcloud = sound(dom.query('.ctrgroup__player__audio'));
 
 describe('dom', function() {
