@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Enjoy music with eyes!",
   "scripts": {
-    "test": "make test",
+    "test": "karma start karma.conf.js",
     "start": "./run.sh"
   },
   "repository": {
