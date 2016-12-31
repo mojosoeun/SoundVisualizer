@@ -1,15 +1,3 @@
 language: node_js
 node_js:
-   — "6"
-install:
- — npm install phantomjs -g
- — npm install -g mocha-phantomjs
- — npm install -g gulp
- — npm install
-before_script:
- — phantomjs —version
- — mocha-phantomjs —version
- — sleep 5 # give gulp background task some time to execute.
-script:
- — mocha-phantomjs test/index.html
- — make test
+  - "6"
