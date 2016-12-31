@@ -36,20 +36,19 @@
   <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
   <script src="http://chaijs.com/chai.js"></script>
-  <script>
-      mocha.setup('bdd');
-      expect = chai.expect;
-  </script>
   <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
   <script src="../src/js/modules/dom.js"></script>
   <script src="../src/js/modules/sound.js"></script>
   <script src="../src/js/modules/sona.js"></script>
   <script>
+    mocha.setup('bdd')
+    expect = chai.expect;
+  </script>
+  <script src="test.js"></script>
+  <script>
       mocha.checkLeaks();
       mocha.globals(['dom','sound','sona']);
       mocha.run();
-  </script>
-  <script src="test.js"></script>
-  </body>
-</body>
+   </script>
+   </body>
 </html>
