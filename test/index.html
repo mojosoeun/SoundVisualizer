@@ -7,18 +7,52 @@
 <body>
   <div id="mocha"></div>
 
+  <div class="visualPanel"></div>
+  <div class="layer" style="display: none">
+    <h1 class="layer__title"> This browser is not supported </h1>
+  </div>
+  <div class="warnPanel" style="display: none">
+    <p class="warnPanel__p">incorrect url</p>
+  </div>
+  <div class="ctrgroup ctrgroup--hidden">
+      <div class="ctrgroup__tab"><a href="#" class="ctrgroup__togglebtn"><span class="icon-bars"></span></a></div>
+      <div class="ctrgroup__player">
+          <form class="ctrgroup__player__form">
+              <input class="ctrgroup__player__form__input" placeholder="Soundcloud URL(https://soundcloud.com/artist/track)" value="https://soundcloud.com/swindail/turbine-blue-swindail-remix"/>
+              <button class="ctrgroup__player__form__submit"><i class="icon-play-circle-o" aria-hidden="true"></i></button><br/>
+          </form>
+          <audio class="ctrgroup__player__audio" controls="" autoplay="" preload autobuffer></audio>
+      </div>
+  </div>
+  <div class="infogroup">
+    <a class="infogroup__a" href="https://github.com/mojosoeun/SoundVisualizer" target="_blank"><i class="icon-github" aria-hidden="true"></i> Github</a>
+    <a class="infogroup__a" href="https://medium.com/@soeunlee" target="_blank"><i class="icon-medium" aria-hidden="true"></i> Medium</a>
+  </div>
+  <section class="defaultPanel">
+    <h1 class="defaulPanel__h1"> Sound Visualizer </h1>
+    <canvas class="defaulPanel__canvas"></canvas>
+  </section>
+
   <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
   <script src="http://chaijs.com/chai.js"></script>
+  <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
   <script src="../src/js/modules/dom.js"></script>
+  <script src="../src/js/modules/sound.js"></script>
+  <script src="../src/js/modules/sona.js"></script>
 
   <script>mocha.setup('bdd')</script>
   <script src="test.js"></script>
-
   <script>
-    mocha.checkLeaks();
-    mocha.globals(['dom']);
-    mocha.run();
-  </script>
+      if (window.mochaPhantomJS) {
+        mochaPhantomJS.globals(['dom','sound','sona']);
+        mochaPhantomJS.run();
+      } else {
+        mocha.checkLeaks();
+        mocha.globals(['dom','sound','sona']);
+        mocha.run();
+      }
+     </script>
+   </body>
 </body>
 </html>

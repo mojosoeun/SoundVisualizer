@@ -17,8 +17,8 @@ var sound = (function(soundcloud) {
 
   sound.fn = sound.prototype = {
     'constructor': sound,
-    'author' : config.author,
-    'version': config.version,
+    'author' : "sona",
+    'version': "1.0.0",
     '_init' : function(audio) {
       var audioCtx = new (window.AudioContext || window.webkitAudioContext),
           source = audioCtx.createMediaElementSource(audio);

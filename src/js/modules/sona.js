@@ -103,7 +103,7 @@ var sona = (function() {
 
     resizeCanvas();
     draw();
-    // bgIntervalId = setInterval(drawBg, 1000 / 2);
+    bgIntervalId = setInterval(drawBg, 1000 / 2);
     window.addEventListener('resize', resizeCanvas, false);
   }
 

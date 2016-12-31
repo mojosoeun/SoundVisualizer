@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Enjoy music with eyes!",
   "scripts": {
-    "test": "mocha test/*.js",
+    "test": "make test",
     "start": "./run.sh"
   },
   "repository": {
