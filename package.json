@@ -16,7 +16,8 @@
     "url": "https://github.com/mojosoeun/SoundVisualizer/issues"
   },
   "homepage": "https://music.sonasoeun.me",
-  "dependencies": {
+  "devDependencies": {
+    "mocha": "^3.2.0",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -24,8 +25,5 @@
     "gulp-uglifyjs": "^0.6.2",
     "mocha-phantomjs": "^4.1.0",
     "phantomjs": "^2.1.7"
-  },
-  "devDependencies": {
-    "mocha": "^3.2.0"
   }
 }
