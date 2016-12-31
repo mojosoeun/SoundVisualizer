@@ -1,5 +1,3 @@
-var soundcloud = sound(dom.query('.ctrgroup__player__audio'));
-
 describe('dom', function() {
   describe('isCorrectSoundCloudURL', function() {
     it('should return false when soundcloud url is incorrect', function() {
@@ -24,8 +22,9 @@ describe('dom', function() {
   });
 });
 
-describe('sound', function() {
-  describe('_init', function() {
+describe('sound and sona', function() {
+  var soundcloud = sound(dom.query('.ctrgroup__player__audio'));
+  describe('sound_init', function() {
     it('have to exist audio analyser when init sound.js', function() {
       expect(soundcloud.analyser).to.be.exist;
     });
@@ -37,16 +36,7 @@ describe('sound', function() {
       expect(!dom.query('.ctrgroup__player__audio').paused).to.be.true;
     });
   });
-  //TODO search test
-  // describe('search', function() {
-  //   it('should get error message when call soundcloud search function with soundcloud forbidden url', function(done) {
-  //     var trackUrl = "https://soundcloud.com/lukasgraham/mama-said";
-  //   });
-  // });
-});
-
-describe('sona', function() {
-  describe('init', function() {
+  describe('sona_init', function() {
     it('have to exist fgCanvas when init sona.js', function() {
       var option = {
         'analyser' : soundcloud.analyser,
@@ -63,4 +53,10 @@ describe('sona', function() {
       expect(dom.query('.imgCanvas').src).to.equal(imgUrl);
     });
   });
+  //TODO search test
+  // describe('search', function() {
+  //   it('should get error message when call soundcloud search function with soundcloud forbidden url', function(done) {
+  //     var trackUrl = "https://soundcloud.com/lukasgraham/mama-said";
+  //   });
+  // });
 });

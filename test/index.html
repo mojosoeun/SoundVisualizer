@@ -42,8 +42,9 @@
   <script src="../src/js/modules/sona.js"></script>
 
   <script>
-    mocha.setup('bdd')
+    mocha.setup('bdd');
     expect = chai.expect;
+    soundcloud = sound(dom.query('.ctrgroup__player__audio'))
   </script>
   <script src="test.js"></script>
   <script>
