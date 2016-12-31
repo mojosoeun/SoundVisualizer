@@ -1,5 +1,5 @@
 # SoundVisualizer
-> Enjoy music with eyes!
+> Enjoy the music with your eyes!
 
 ![](public/sound-visualizer.png)
 
