@@ -1,9 +1,14 @@
+sudo: required
+dist: trusty
 language: node_js
 node_js:
-  - "6"
-install:
-  - npm install -g phantomjs
-  - npm install -g mocha-phantomjs
-  - npm install
-script:
-  - mocha-phantomjs --ssl-protocol=any ./test/index.html
+ - "6"
+
+before_install:
+ - export CHROME_BIN=/usr/bin/google-chrome
+ - export DISPLAY=:99.0
+ - sh -e /etc/init.d/xvfb start
+ - sudo apt-get update
+ - sudo apt-get install -y libappindicator1 fonts-liberation
+ - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ - sudo dpkg -i google-chrome*.deb
