@@ -37,7 +37,7 @@ describe('sound', function() {
       expect(!dom.query('.ctrgroup__player__audio').paused).to.be.true;
     });
   });
-  //TODO
+  //TODO search test
   // describe('search', function() {
   //   it('should get error message when call soundcloud search function with soundcloud forbidden url', function(done) {
   //     var trackUrl = "https://soundcloud.com/lukasgraham/mama-said";
