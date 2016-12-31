@@ -7,4 +7,4 @@ install:
   - npm install -g mocha-phantomjs
   - npm install
 script:
-  - mocha-phantomjs test/index.html
+  - mocha-phantomjs --ssl-protocol=any --ignore-ssl-errors=true --load-images=false test/index.html
