@@ -2,7 +2,8 @@
 // Generated on Sat Dec 31 2016 17:07:05 GMT+0900 (KST)
 
 module.exports = function(config) {
-  config.set({
+
+  var configuration = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -72,8 +73,10 @@ module.exports = function(config) {
         flags: ['--no-sandbox']
       }
     }
-  })
+  };
+
   if(process.env.TRAVIS) {
     configuration.browsers = ['Chrome_travis_ci'];
   }
+  config.set(configuration)
 }
