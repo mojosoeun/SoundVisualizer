@@ -11,17 +11,17 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
       'node_modules/mocha/mocha.js',
-      'node_modules/mocha/chai.js',
+      'node_modules/chai/chai.js',
       'https://connect.soundcloud.com/sdk/sdk-3.1.2.js',
       'test/index.html',
       'src/js/modules/*.js',
-      'test/*.js',
+      'test/test.js',
     ],
 
 
@@ -71,6 +71,20 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity,
+
+    plugins: [
+       require('karma-mocha'),
+       require('karma-chai'),
+       require('karma-chrome-launcher'),
+       require('karma-mocha-reporter')
+   ],
+
+   client: {
+      mocha: {
+        reporter: 'html',
+        timeout: (process.env.CI ? 5000 : 2000)
+      }
+    },
 
     customLaunchers: {
       Chrome_travis_ci: {
