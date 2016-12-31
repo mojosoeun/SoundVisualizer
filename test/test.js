@@ -1,4 +1,3 @@
-var audioContext = new AudioContext();
 describe('dom', function() {
   describe('isCorrectSoundCloudURL', function() {
     it('should return false when soundcloud url is incorrect', function() {
