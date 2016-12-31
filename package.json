@@ -23,6 +23,7 @@
     "gulp-minify": "0.0.14",
     "gulp-uglifyjs": "^0.6.2",
     "mocha": "^3.2.0",
-    "phantomjs-polyfill": "0.0.2"
+    "phantomjs-polyfill": "0.0.2",
+    "weakmap": "0.0.6"
   }
 }
