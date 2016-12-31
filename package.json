@@ -17,11 +17,12 @@
   },
   "homepage": "https://music.sonasoeun.me",
   "devDependencies": {
-    "mocha": "^3.2.0",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
-    "gulp-uglifyjs": "^0.6.2"
+    "gulp-uglifyjs": "^0.6.2",
+    "mocha": "^3.2.0",
+    "phantomjs-polyfill": "0.0.2"
   }
 }
