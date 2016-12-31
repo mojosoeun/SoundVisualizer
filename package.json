@@ -18,6 +18,7 @@
   "homepage": "https://music.sonasoeun.me",
   "devDependencies": {
     "chai": "^3.5.0",
+    "es6-symbol": "^3.1.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
