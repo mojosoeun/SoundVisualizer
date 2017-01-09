@@ -1,5 +1,6 @@
-# SoundVisualizer
+# SoundVisualizer [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > Enjoy the music with your eyes!
+
 
 ![](public/sound-visualizer.png)
 
