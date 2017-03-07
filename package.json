@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Enjoy music with eyes!",
   "scripts": {
-    "test": "karma start karma.config.js --browsers Chrome --single-run",
+    "test": "karma start karma.conf.js --browsers Chrome --single-run",
     "start": "./run.sh"
   },
   "repository": {
