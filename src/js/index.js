@@ -33,7 +33,8 @@
   if (getUrlParameter(param)) {
     var trackUrl = getUrlParameter(param);
     trackInputer.value = trackUrl;
-    play(trackUrl);
+    search(trackUrl);
+    audio.play();
   }
 
   function detectIE() {
@@ -61,11 +62,10 @@
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
 
-  function play(track){
+  function search(track){
     soundcloud.search(track, function(streamUrl, artworkUrl){
       $.show(visualPanel);
       $.hide(warnPanel);
-      soundcloud.play(streamUrl);
       sona.drawAlbumImg(artworkUrl);
       setTimeout(util.toggle(ctrGroup, 'ctrgroup--hidden'), 3000); // auto-hide the control panel
     }, function(err){
@@ -82,7 +82,8 @@
     e.preventDefault();
     $.hide(defaultPanel);
     if(util.isCorrectSoundCloudURL(trackInputer.value)) {
-      play(trackInputer.value);
+      search(trackInputer.value);
+      audio.play();
     } else {
       $.query('.warnPanel__p').innerHTML = 'invalid soundcloud url';
       $.show(warnPanel);
