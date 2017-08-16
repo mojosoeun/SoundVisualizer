@@ -1,10 +1,10 @@
 language: node_js
 node_js:
 - '7'
-before_script:
-  - npm install
-  - npm install -g gulp-cli
-before_deploy: gulp
+before_install:
+  - npm install -g gulp
+script:
+  - gulp
 cache:
   directories:
     - "node_modules"
@@ -16,3 +16,9 @@ deploy:
 env:
   global:
     secure: WG2VMFSBZMLVdX4rytdwMNStojOPM9s1YiV9SAs9se+8VLnXBGgXUFiNtagt9P9mXcUrI6Exh7CJmv2e4SDCl9gC7sQIsGb8K5EV2xnbrgJ8ULDq46dbtWW4LrOtMTyfgMM78Yyi5Uh8tyhULzX32dFOHNNhomFBSjFLUiU7G3eVMJ+6fWBZFMfiKqqq91wVZQRv2xwfWXa+Q8FVFT6f/7Cxwzc4pb8H3Fa5jPO8evkJcmfsdGMDSYbtjVOIGtO8vRKcqQsd+0kf05YFKvcnn42HWiOOZayk+GmurEgf+G4jKlvx1jcK47cLtypg11fq+17JhDC4S+qaZXVbIPOeN3rpo7mq/HIuDhAL3iHBTnuZ1qiZXQeKKl4vXGhESsY4tohAOncNFL+jlmoQlMhkx1Q+DA4K7oNPlZLUGBnz7ySE/bP51HozzTdertWWRP/HirlF/I43ZCbSQw8N9Dz3kC8KtSfynxRxZsd6VOYRpR/UBJXpULmIt81EvU2c8/Q+Zo076ojeaz0KD+Eb9yDfGdDxirw8AMury9vjk1ptezOE/G+8cUlbLkMIzGr5Xe5fzVm2MBKlKdzKInN9IhqcbSxmSEmnSeNXgDDCZdC7KXaL5GdT9rHvw+BUCMvvFfe76ejPwv+VWNU9kjHkZsHnGeVHET/CH8Hll5yqyJeo3CQ=
+after_success:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - git commit -m "feat: sucess ci"
+  - git push
+
