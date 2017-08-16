@@ -2,10 +2,6 @@
   "name": "sound-visuzlizer",
   "version": "1.0.0",
   "description": "Enjoy music with eyes!",
-  "scripts": {
-    "test": "karma start karma.conf.js --browsers Chrome --single-run",
-    "start": "./run.sh"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mojosoeun/SoundVisualizer.git"
