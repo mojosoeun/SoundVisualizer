@@ -4,4 +4,3 @@ npm-debug.log
 firebase-debug.log
 public/bower_components/
 node_modules
-.travis.yml
