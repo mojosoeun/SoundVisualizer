@@ -19,6 +19,6 @@ env:
 after_success:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
-  - git commit -m "feat: sucess ci"
+  - git commit -m "sucess ci"
   - git push
 
