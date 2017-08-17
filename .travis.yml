@@ -16,8 +16,9 @@ deploy:
 env:
   global:
   - secure: SkRj/5vIx4BGTZ6Tj7AqmxOgKr7vw25QdKrWehPC3NdJYqPJA6VqbEZK3kTLKo4qV2uoJQf/YGZ3aFI5sS55Vh2Pk7DmyUZEl02I3tFI+lGELPGa38k2nzEj3V/KAq+QWAWm8ekhHUtckBR/UoZ0HkLO7rPIe6CXkgwByBOCHJ4fG8jL9gbyeErj/88rGwqTXwtqE5Gb66ej9zgBtiyStw7zaOXjn661hfGPY9+qSIogHq8gvGRppb+SZK42jCfbY9DmYNOFLCtrYhAqSRZMIi11xvvWThntsfHyDSP6sMp0V1JuQUx1r/jkeaPyiV0LemxyQ4TzS25eLlG4UHQ+oVPKorRZlIXF2/B3uR61Ro79ScmdV925oIHRh9zjClVJKJUg2Ml+vW0uWSZmR9/pWlHoFmM5QtvEh/175e4auBe+m3HfntiQYF1cNSU32+P6Hb4vKWPh7VoH8qrl9dOlNu7bhAWLMRq10LCgwYOlY5swjJM6RIRE2mhe+3c83nyXveMwPW5X0yR05B9Na7XSXGrRsfji6Z3iv0E6xK+jaIhQ5HcVAIIrzhudTFWHRST35XYuACimKNsENA3/4KfZQg5EkSJcqJk0iAlVK0LZY5eq04Eg/s8Um3Cf0zEp+eLell1vyzysoHdo5BQpjXYpgjpIpk0qOQ5Ij+0/5VyfwWw=
-before_install:
-  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
-
-install:
-  - composer install --dev --prefer-dist
+after_success:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - git add .
+  - git commit -m "sucess ci"
+  - git push
