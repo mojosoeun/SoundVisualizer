@@ -21,4 +21,5 @@ after_success:
   - git config --global user.name "Travis CI"
   - git add .
   - git commit -m "sucess ci"
-  - git push
+  - git remote add origin https://${GH_TOKEN}@github.com/mojosoeun/SoundVisualizer.git > /dev/null 2>&1
+  - git push --quiet --set-upstream
