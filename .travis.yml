@@ -3,8 +3,6 @@ node_js:
 - '7'
 before_install:
 - npm install -g gulp
-script:
-- gulp
 cache:
   directories:
   - node_modules
@@ -19,6 +17,7 @@ env:
 after_success:
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
+- gulp
 - git add .
 - git commit -m "success ci [ci skip]"
 - git remote add test https://$GH_TOKEN@github.com/mojosoeun/SoundVisualizer.git
