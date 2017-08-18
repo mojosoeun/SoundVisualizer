@@ -21,7 +21,7 @@ var sona = (function() {
     bgCtx.beginPath();
     bgCtx.rect(0, 0, bgCanvas.width, bgCanvas.height);
 
-    var r = Math.floor(Math.random() * (2)),
+    var r = Math.floor(Math.random() * 2),
         gradient = bgCtx.createLinearGradient(0,0,1500,0);
 
     gradient.addColorStop(0, gradientColor[r][0]); // #00DBDE'rgb(0, 219, 222)'
@@ -53,7 +53,7 @@ var sona = (function() {
     var bufferLength = analyser.frequencyBinCount
       , dataArray = new Uint8Array(bufferLength)
       , barWidth = (fgCanvas.width / bufferLength) * 2.5;
-      
+
     analyser.getByteFrequencyData(dataArray);
 
     fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
