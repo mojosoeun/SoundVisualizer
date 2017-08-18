@@ -18,7 +18,8 @@ after_success:
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
 - gulp
-- git init
+- git checkout -b gh-pages
 - git add .
 - git commit -m "success ci"
-- git push --force --quiet https://$GH_TOKEN@github.com/mojosoeun/SoundVisualizer.git master
+- git remote add test https://$GH_TOKEN@github.com/mojosoeun/SoundVisualizer.git > /dev/null 2>&1
+- git push --quiet --set-upstream test master
