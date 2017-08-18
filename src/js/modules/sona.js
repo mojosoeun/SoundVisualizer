@@ -50,9 +50,10 @@ var sona = (function() {
         barData,
         x = 0;
 
-    var bufferLength = analyser.frequencyBinCount;
-    var dataArray = new Uint8Array(bufferLength);
-    var barWidth = (fgCanvas.width / bufferLength) * 2.5;
+    var bufferLength = analyser.frequencyBinCount
+      , dataArray = new Uint8Array(bufferLength)
+      , barWidth = (fgCanvas.width / bufferLength) * 2.5;
+      
     analyser.getByteFrequencyData(dataArray);
 
     fgCtx.clearRect(-fgCanvas.width, -fgCanvas.height, fgCanvas.width*2, fgCanvas.height *2);
