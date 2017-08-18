@@ -14,7 +14,7 @@ var sound = (function(soundcloud) {
     }
     this._init.apply(this, arguments);
   }
-
+ 
   sound.fn = sound.prototype = {
     'constructor': sound,
     'author' : "sona",
