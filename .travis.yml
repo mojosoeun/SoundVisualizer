@@ -18,8 +18,9 @@ after_success:
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
 - gulp
-- git checkout master
+- git status
 - git add .
 - git commit -m "[skip ci] success ci"
+- git log --oneline -2 | nl -v0 | sed ‘s/^ \+/&HEAD~/’
 - git remote add test https://$GH_TOKEN@github.com/mojosoeun/SoundVisualizer.git
 - git push test master
