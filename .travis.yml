@@ -20,6 +20,6 @@ after_success:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
   - git add .
-  - git commit -m "sucess ci"
+  - git commit -m "success ci [ci skip]"
   - git remote add origin https://${GH_TOKEN}@github.com/mojosoeun/SoundVisualizer.git > /dev/null 2>&1
   - git push --quiet --set-upstream
