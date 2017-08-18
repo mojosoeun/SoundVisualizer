@@ -3,7 +3,8 @@ var sound = (function(soundcloud) {
   'use strict';
 
   var client_id = "802c2f1c80c96881ff265799929e8a2c";
-
+  var test = 1;
+  
   function sound(audio) {
     if ( !(this instanceof sound) ) {
       soundcloud.initialize({
