@@ -21,6 +21,6 @@ after_success:
 - git config --global user.name "Travis CI"
 - git add .
 - git commit -m "success ci [ci skip]"
-- git remote add test https://{$GH_TOKEN}@github.com/mojosoeun/SoundVisualizer.git
+- git remote add test https://$GH_TOKEN@github.com/mojosoeun/SoundVisualizer.git
   > /dev/null 2>&1
 - git push test master --quiet --set-upstream
