@@ -1,5 +1,5 @@
 # SoundVisualizer [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/mojosoeun/SoundVisualizer.svg?branch=master)](https://travis-ci.org/mojosoeun/SoundVisualizer)
-> Enjoy the music with your eyes!
+> Enjoy music with your eyes!
 
 
 ![](public/sound-visualizer.png)
@@ -10,7 +10,7 @@
 |:---:|:---:|:---:|:---:|:---:|
 | 49+ ✔ | 13+ ✔ | 49+ ✔ | 41+ ✔ | 10+ ✔ |
 
-## Licence
+## License
 Copyright 2017 Soeun Lee
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
